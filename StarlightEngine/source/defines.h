@@ -5,6 +5,8 @@
 #include "GLFW/glfw3.h"
 
 #include <string>
+#include <unordered_map>
+#include <vector>
 #include <exception>
 #include <cstdint>
 

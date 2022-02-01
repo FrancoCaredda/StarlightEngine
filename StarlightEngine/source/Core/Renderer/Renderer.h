@@ -6,6 +6,7 @@
 #include "IBuffers.h"
 #include "IVertexArray.h"
 #include "IShader.h"
+#include "Camera.h"
 
 namespace Starlight
 {
@@ -23,7 +24,12 @@ namespace Starlight
 	
 		static bool Init(API rendererApi);
 
+		static void Clear() noexcept;
+		static void ClearColor(const glm::vec4& color) noexcept;
 		static void DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program);
+
+		static void SetMainCamera(Camera* camera) noexcept;
+		static void SetProjection(const glm::mat4& projection) noexcept;
 
 		static inline API GetApi() noexcept { return s_Instance.m_RendererApi; }
 
@@ -34,6 +40,9 @@ namespace Starlight
 		Renderer() = default;
 
 		static Renderer s_Instance;
+
+		Camera* m_Camera;
+		glm::mat4 m_Projection;
 
 		API m_RendererApi;
 		bool m_Inited = false;

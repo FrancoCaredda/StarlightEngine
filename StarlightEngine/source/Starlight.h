@@ -16,4 +16,6 @@
 #include "Core/Renderer/IBuffers.h"
 #include "Core/Renderer/IVertexArray.h"
 #include "Core/Renderer/IShader.h"
+#include "Core/Renderer/ShaderLibrary.h"
+#include "Core/Renderer/Camera.h"
 /* -------------------------------------- */

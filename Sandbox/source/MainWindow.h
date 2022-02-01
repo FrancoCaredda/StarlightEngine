@@ -18,7 +18,8 @@ private:
 	Starlight::IVertexBuffer* m_VBO;
 	Starlight::IIndexBuffer* m_IBO;
 
-	Starlight::IShaderProgram* m_ShaderProgram;
+	Starlight::IShaderProgram* m_Program;
+	Starlight::Camera m_Camera;
 
 	bool m_Draw = false;
 };

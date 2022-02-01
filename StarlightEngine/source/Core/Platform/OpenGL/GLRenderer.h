@@ -19,6 +19,8 @@ namespace Starlight
 
 			static bool Init() noexcept;
 			
+			static void Clear() noexcept;
+			static void ClearColor(const glm::vec4& color);
 			static void DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program) noexcept;
 
 			static void Shutdown() noexcept;

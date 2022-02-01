@@ -196,7 +196,7 @@ namespace Starlight
 
 		bool ShaderProgram::GetUniformLocation(const std::string& name)
 		{
-			if (m_Uniforms.find(name) != m_Uniforms.end())
+			if (m_Uniforms.find(name) == m_Uniforms.end())
 			{
 				int location = glGetUniformLocation(m_Id, name.c_str());
 

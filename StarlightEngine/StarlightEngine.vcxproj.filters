@@ -930,6 +930,12 @@
     <ClInclude Include="source\Core\Platform\OpenGL\GLRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\Core\Renderer\ShaderLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\Renderer\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="vendor\glm\glm\detail\glm.cpp">
@@ -963,6 +969,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Core\Platform\OpenGL\GLRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\Renderer\ShaderLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\Renderer\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

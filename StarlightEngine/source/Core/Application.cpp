@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include "Core/Renderer/Renderer.h"
+
 namespace Starlight
 {
 	Application Application::s_Instance;
@@ -32,7 +34,7 @@ namespace Starlight
 
 		while (!glfwWindowShouldClose(context))
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
+			Renderer::Clear();
 
 			deltaTime = static_cast<float>(glfwGetTime()) - previousTime;
 			previousTime += deltaTime;
