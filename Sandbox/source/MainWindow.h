@@ -12,7 +12,15 @@ public:
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
 
-	virtual ~MainWindow() { }
+	virtual ~MainWindow();
+private:
+	Starlight::IVertexArray* m_VAO;
+	Starlight::IVertexBuffer* m_VBO;
+	Starlight::IIndexBuffer* m_IBO;
+
+	Starlight::IShaderProgram* m_ShaderProgram;
+
+	bool m_Draw = false;
 };
 
 

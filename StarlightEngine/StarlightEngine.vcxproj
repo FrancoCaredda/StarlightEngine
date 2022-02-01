@@ -19,6 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Core\Platform\OpenGL\GLRenderer.h" />
+    <ClInclude Include="source\Core\Renderer\IShader.h" />
+    <ClInclude Include="source\Core\Platform\OpenGL\Shader.h" />
+    <ClInclude Include="source\Core\Renderer\IVertexArray.h" />
+    <ClInclude Include="source\Core\Platform\OpenGL\Buffers.h" />
+    <ClInclude Include="source\Core\Renderer\IBuffers.h" />
     <ClInclude Include="source\Core\Renderer\Renderer.h" />
     <ClInclude Include="source\Core\AWindow.h" />
     <ClInclude Include="source\Core\Application.h" />
@@ -317,12 +323,20 @@
     <ClInclude Include="vendor\glm\glm\vec3.hpp" />
     <ClInclude Include="vendor\glm\glm\vec4.hpp" />
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
+    <ClInclude Include="source\Core\Platform\OpenGL\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Core\Platform\OpenGL\GLRenderer.cpp" />
+    <ClCompile Include="source\Core\Renderer\IShader.cpp" />
+    <ClCompile Include="source\Core\Platform\OpenGL\Shader.cpp" />
+    <ClCompile Include="source\Core\Renderer\IVertexArray.cpp" />
+    <ClCompile Include="source\Core\Platform\OpenGL\Buffers.cpp" />
+    <ClCompile Include="source\Core\Renderer\IBuffers.cpp" />
     <ClCompile Include="source\Core\Renderer\Renderer.cpp" />
     <ClCompile Include="source\Core\AWindow.cpp" />
     <ClCompile Include="source\Core\Application.cpp" />
     <ClCompile Include="vendor\glm\glm\detail\glm.cpp" />
+    <ClCompile Include="source\Core\Platform\OpenGL\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vendor\glew-2.1.0\doc\advanced.html" />

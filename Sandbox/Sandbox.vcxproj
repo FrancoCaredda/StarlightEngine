@@ -19,11 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="source\MainWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\object.frag.glsl" />
+    <None Include="Shaders\object.vert.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

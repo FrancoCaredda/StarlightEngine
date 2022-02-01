@@ -13,4 +13,7 @@
 
 /* --------------RENDERER----------------*/
 #include "Core/Renderer/Renderer.h"
+#include "Core/Renderer/IBuffers.h"
+#include "Core/Renderer/IVertexArray.h"
+#include "Core/Renderer/IShader.h"
 /* -------------------------------------- */

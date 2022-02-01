@@ -3,6 +3,10 @@
 
 #include "defines.h"
 
+#include "IBuffers.h"
+#include "IVertexArray.h"
+#include "IShader.h"
+
 namespace Starlight
 {
 	enum API
@@ -19,7 +23,9 @@ namespace Starlight
 	
 		static bool Init(API rendererApi);
 
-		static void DrawTriangle();
+		static void DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program);
+
+		static inline API GetApi() noexcept { return s_Instance.m_RendererApi; }
 
 		static void Shutdown();
 

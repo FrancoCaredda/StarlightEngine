@@ -1,6 +1,7 @@
 #include "Renderer.h"
 
 #include "Core/Log.h"
+#include "Core/Platform/OpenGL/GLRenderer.h"
 
 namespace Starlight
 {
@@ -9,22 +10,23 @@ namespace Starlight
     bool Renderer::Init(API rendererApi)
     {
         s_Instance.m_RendererApi = rendererApi;
-        return s_Instance.m_Inited = (glewInit() == GLEW_OK);
+
+        switch (rendererApi)
+        {
+        case OPENGL_API:
+            return s_Instance.m_Inited = OpenGL::GLRenderer::Init();
+        default:
+            SL_ERROR("Starlight supports OpenGL now");
+            return s_Instance.m_Inited = false;
+        }
     }
 
-    void Renderer::DrawTriangle()
+    void Renderer::DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program)
     {
         switch (s_Instance.m_RendererApi)
         {
         case OPENGL_API:
-            glBegin(GL_TRIANGLES);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(-0.5f, -0.5f, 0.0f);
-            glColor3f(0.0f, 1.0f, 0.0f);
-            glVertex3f(0.0f,   0.5f, 0.0f);
-            glColor3f(0.0f, 0.0f, 1.0f);
-            glVertex3f(0.5f,  -0.5f, 0.0f);
-            glEnd();
+            OpenGL::GLRenderer::DrawIndecies(vertexArray, indexBuffer, program);
             break;
         default:
             SL_ERROR("Renderer supports OpenGL now");
@@ -35,5 +37,15 @@ namespace Starlight
     void Renderer::Shutdown()
     {
         SL_STD_EXCEPTION(!s_Instance.m_Inited, "Renderer isn\'t inited!");
+
+        switch (s_Instance.m_RendererApi)
+        {
+        case OPENGL_API:
+            OpenGL::GLRenderer::Shutdown();
+            break;
+        default:
+            SL_ERROR("Starlight supports OpenGL now");
+            break;
+        }
     }
 }
