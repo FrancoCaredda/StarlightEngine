@@ -936,6 +936,9 @@
     <ClInclude Include="source\Core\Renderer\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\Core\Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="vendor\glm\glm\detail\glm.cpp">
@@ -975,6 +978,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Core\Renderer\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

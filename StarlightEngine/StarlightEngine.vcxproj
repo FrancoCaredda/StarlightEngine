@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Core\Input.h" />
     <ClInclude Include="source\Core\Renderer\Camera.h" />
     <ClInclude Include="source\Core\Renderer\ShaderLibrary.h" />
     <ClInclude Include="source\Core\Platform\OpenGL\GLRenderer.h" />
@@ -328,6 +329,7 @@
     <ClInclude Include="source\Core\Platform\OpenGL\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Core\Input.cpp" />
     <ClCompile Include="source\Core\Renderer\Camera.cpp" />
     <ClCompile Include="source\Core\Renderer\ShaderLibrary.cpp" />
     <ClCompile Include="source\Core\Platform\OpenGL\GLRenderer.cpp" />

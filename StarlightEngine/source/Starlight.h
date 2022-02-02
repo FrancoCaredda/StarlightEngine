@@ -8,6 +8,7 @@
 /* -----------------CORE----------------- */
 #include "Core/Application.h"
 #include "Core/AWindow.h"
+#include "Core/Input.h"
 #include "Core/Log.h"
 /* -------------------------------------- */
 

@@ -25,7 +25,7 @@ namespace Starlight
 		~Camera() = default;
 	private:
 		glm::mat4 m_View = glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
+	protected:
 		glm::vec3 m_Direction = glm::vec3(0.0f, 0.0f, -1.0f);
 		glm::vec3 m_Position  = glm::vec3(0.0f, 0.0f,  0.0f);
 		glm::vec3 m_Up		  = glm::vec3(0.0f, 1.0f,  0.0f);
