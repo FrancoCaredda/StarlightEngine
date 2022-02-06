@@ -8,43 +8,11 @@ using namespace Starlight;
 
 void MainWindow::Start()
 {
-	m_FrameBuffer = CreateFrameBuffer();
-	m_RenderBuffer = CreateRenderBuffer(DEPTH24_STENCIL8, m_Width, m_Height);
-	m_ColorBuffer = CreateTexture2D(RGBA, m_Width, m_Height);
-
-	m_FrameBuffer->AttachColorBuffer(COLOR_ATTACHMENT0, m_ColorBuffer);
-	m_FrameBuffer->AttachRenderBuffer(DEPTH_STENCIL_ATTACHMENT, m_RenderBuffer);
-
-	m_FrameBuffer->Bind();
-
-	if (!m_FrameBuffer->Check())
-	{
-		SL_FATAL("standard frame buffer isn\'t initialized!");
-	}
-	
-	m_FrameBuffer->Unbind();
-
-	if (!ShaderLibrary::CreateShaderProgram("frame", "Shaders/frame.vert.glsl", "Shaders/frame.frag.glsl"))
-	{
-		SL_FATAL("standard frame buffer isn\'t initialized!");
-	}
-
-	m_FrameShader = ShaderLibrary::GetShaderProgram("frame");
-
-
 	m_Input = new Input(this);
 	m_Input->DisableCursor();
 
 	Renderer::SetMainCamera(&m_Camera);
 	Renderer::SetProjection(glm::perspective(glm::radians(45.0f), (float)m_Width / (float)m_Height, 0.1f, 1000.0f));
-
-	std::vector<float> quadTextureData = {
-		-1.0f, -1.0f, 1.0f,		0.0f, 0.0f,
-		-1.0f,  1.0f, 1.0f,		0.0f, 1.0f,
-		 1.0f, -1.0f, 1.0f,		1.0f, 0.0f,
-		 1.0f,  1.0f, 1.0f,		1.0f, 1.0f
-	};
-
 
 	std::vector<float> data = {
 		-0.5f, -0.5f, 1.0f,		1.0f, 1.0f, 1.0f,	0.0f, 0.0f,
@@ -77,20 +45,6 @@ void MainWindow::Start()
 	m_VAO->SetIndexBuffer(m_IBO);
 	m_VAO->Bind();
 
-	m_FrameVBO = CreateVertexBuffer();
-	m_FrameVBO->Allocate(quadTextureData.size() * sizeof(float));
-	m_FrameVBO->Write(quadTextureData.data(), quadTextureData.size() * sizeof(float), 0);
-	m_FrameVBO->Bind();
-
-	m_FrameVAO = CreateVertexArray();
-	m_FrameVAO->SetIndexBuffer(m_IBO);
-	m_FrameVAO->AttachVertexBuffer(m_FrameVBO);
-	m_FrameVAO->SetVertexLayout({
-		{0, {3, 5 * sizeof(float), 0}},
-		{1, {2, 5 * sizeof(float), 3 * sizeof(float)}}
-	});
-
-
 	ShaderLibrary::CreateShaderProgram("object", "Shaders/object.vert.glsl", "Shaders/object.frag.glsl");
 	m_Program = ShaderLibrary::GetShaderProgram("object");
 
@@ -109,13 +63,6 @@ void MainWindow::Start()
 
 void MainWindow::Update(float deltaTime)
 {
-	Renderer::Enable(DEPTH_TEST);
-	Renderer::Enable(STENCIL_TEST);
-
-	m_FrameBuffer->Bind();
-
-	Renderer::Clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT | STENCIL_BUFFER_BIT);
-
 	ProcessInput(deltaTime);
 	m_PreviousMousePosition = m_Input->GetMousePosition();
 
@@ -128,23 +75,6 @@ void MainWindow::Update(float deltaTime)
 	m_Texture->Bind();
 	m_Program->SetUniformi("u_Texture", 1);
 	Renderer::DrawIndecies(m_VAO, m_IBO, m_Program);
-
-	m_FrameBuffer->Unbind();
-
-	Renderer::Disable(DEPTH_TEST);
-	Renderer::Disable(STENCIL_TEST);
-	Renderer::Clear(COLOR_BUFFER_BIT);
-
-	m_FrameVAO->Bind();
-	m_FrameVBO->Bind();
-	m_IBO->Bind();
-	m_FrameShader->Bind();
-
-	m_ColorBuffer->SetActiveSlot(0);
-	m_ColorBuffer->Bind();
-	m_FrameShader->SetUniformi("u_Texture", 0);
-
-	Renderer::DrawTexture(m_FrameVAO, m_IBO, m_FrameShader);
 }
 
 void MainWindow::ProcessInput(float deltaTime) noexcept
@@ -162,11 +92,8 @@ void MainWindow::ProcessInput(float deltaTime) noexcept
 	m_Pitch += deltaPosition.y;
 	m_Yaw += -deltaPosition.x;
 
-	if (m_Pitch > 90.0f)
-		m_Pitch = 90.0f;
-	else if (m_Pitch < -90.0f)
-		m_Pitch = -90.0f;
-
+	m_Pitch = glm::clamp(m_Pitch, -90.0f, 90.0f);
+	
 	x = glm::cos(glm::radians(m_Yaw)) * glm::cos(glm::radians(m_Pitch)) * deltaTime;
 	y = glm::sin(glm::radians(m_Pitch)) * deltaTime;
 	z = glm::sin(glm::radians(m_Yaw)) * glm::cos(glm::radians(m_Pitch)) * deltaTime;

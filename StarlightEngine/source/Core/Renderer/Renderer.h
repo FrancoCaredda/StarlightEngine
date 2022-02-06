@@ -26,12 +26,10 @@ namespace Starlight
 		static void Clear(int buffers) noexcept;
 		static void ClearColor(const glm::vec4& color) noexcept;
 		static void DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program);
-		static void DrawTexture(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program);
-		static void DrawFrameBuffer() noexcept;
+		static void DrawFrame() noexcept;
 
 
-		static void BindStdFrameBuffer() noexcept;
-		static void UnbindStdFrameBuffer() noexcept;
+		static ITexture2D* GetFrameColor() noexcept;
 
 		static void SetMainCamera(Camera* camera) noexcept;
 		static void SetProjection(const glm::mat4& projection) noexcept;

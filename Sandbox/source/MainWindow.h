@@ -16,15 +16,6 @@ public:
 
 	virtual ~MainWindow();
 private:
-	Starlight::IFrameBuffer* m_FrameBuffer;
-	Starlight::IRenderBuffer* m_RenderBuffer;
-	Starlight::ITexture2D* m_ColorBuffer;
-	Starlight::IVertexArray* m_FrameVAO;
-	Starlight::IVertexBuffer* m_FrameVBO;
-	Starlight::IIndexBuffer* m_FrameIBO;
-	Starlight::IShaderProgram* m_FrameShader;
-
-
 	Starlight::IVertexArray* m_VAO;
 	Starlight::IVertexBuffer* m_VBO;
 	Starlight::IIndexBuffer* m_IBO;

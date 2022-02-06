@@ -40,12 +40,18 @@ namespace Starlight
 
 		while (!glfwWindowShouldClose(context))
 		{
+			Renderer::Enable(DEPTH_TEST);
+			Renderer::Enable(STENCIL_TEST);
+
+			Renderer::Clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT | STENCIL_BUFFER_BIT);
+
 			deltaTime = static_cast<float>(glfwGetTime()) - previousTime;
 			previousTime += deltaTime;
 	
 			s_Instance.m_CurrentContext->Update(deltaTime);
 
-			
+			Renderer::DrawFrame();
+
 			glfwSwapBuffers(context);
 			glfwPollEvents();
 		}
