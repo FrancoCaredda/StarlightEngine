@@ -6,7 +6,6 @@
 
 #include "glm/glm.hpp"
 
-#include <unordered_map>
 
 namespace Starlight
 {
@@ -17,7 +16,7 @@ namespace Starlight
 	/// Y component of vector defines stride between two vertecies. (must be in bytes)
 	/// Z component of vector defines offset to attribute. (must be in bytes)
 	/// </summary>
-	typedef std::unordered_map<uint32_t, glm::uvec3> VertexLayout;
+	typedef std::vector<std::pair<uint32_t, glm::uvec3>> VertexLayout;
 
 	class STARLIGHT_API IVertexArray
 	{

@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Core\Platform\OpenGL\FrameBuffer.h" />
+    <ClInclude Include="source\Core\Renderer\IFrameBuffer.h" />
+    <ClInclude Include="source\Core\enums.h" />
+    <ClInclude Include="source\Core\Renderer\ITexture.h" />
     <ClInclude Include="source\Core\Input.h" />
     <ClInclude Include="source\Core\Renderer\Camera.h" />
     <ClInclude Include="source\Core\Renderer\ShaderLibrary.h" />
@@ -34,6 +38,7 @@
     <ClInclude Include="source\Core\Log.h" />
     <ClInclude Include="source\Starlight.h" />
     <ClInclude Include="source\defines.h" />
+    <ClInclude Include="source\Core\Platform\OpenGL\Texture.h" />
     <ClInclude Include="vendor\glew-2.1.0\include\GL\eglew.h" />
     <ClInclude Include="vendor\glew-2.1.0\include\GL\glew.h" />
     <ClInclude Include="vendor\glew-2.1.0\include\GL\glxew.h" />
@@ -327,8 +332,30 @@
     <ClInclude Include="vendor\glm\glm\vec4.hpp" />
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
     <ClInclude Include="source\Core\Platform\OpenGL\VertexArray.h" />
+    <ClInclude Include="vendor\stb\stb_connected_components.h" />
+    <ClInclude Include="vendor\stb\stb_c_lexer.h" />
+    <ClInclude Include="vendor\stb\stb_divide.h" />
+    <ClInclude Include="vendor\stb\stb_ds.h" />
+    <ClInclude Include="vendor\stb\stb_dxt.h" />
+    <ClInclude Include="vendor\stb\stb_easy_font.h" />
+    <ClInclude Include="vendor\stb\stb_herringbone_wang_tile.h" />
+    <ClInclude Include="vendor\stb\stb_hexwave.h" />
+    <ClInclude Include="vendor\stb\stb_image.h" />
+    <ClInclude Include="vendor\stb\stb_image_resize.h" />
+    <ClInclude Include="vendor\stb\stb_image_write.h" />
+    <ClInclude Include="vendor\stb\stb_include.h" />
+    <ClInclude Include="vendor\stb\stb_leakcheck.h" />
+    <ClInclude Include="vendor\stb\stb_rect_pack.h" />
+    <ClInclude Include="vendor\stb\stb_sprintf.h" />
+    <ClInclude Include="vendor\stb\stb_textedit.h" />
+    <ClInclude Include="vendor\stb\stb_tilemap_editor.h" />
+    <ClInclude Include="vendor\stb\stb_truetype.h" />
+    <ClInclude Include="vendor\stb\stb_voxel_render.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Core\Platform\OpenGL\FrameBuffer.cpp" />
+    <ClCompile Include="source\Core\Renderer\IFrameBuffer.cpp" />
+    <ClCompile Include="source\Core\Renderer\ITexture.cpp" />
     <ClCompile Include="source\Core\Input.cpp" />
     <ClCompile Include="source\Core\Renderer\Camera.cpp" />
     <ClCompile Include="source\Core\Renderer\ShaderLibrary.cpp" />
@@ -341,8 +368,11 @@
     <ClCompile Include="source\Core\Renderer\Renderer.cpp" />
     <ClCompile Include="source\Core\AWindow.cpp" />
     <ClCompile Include="source\Core\Application.cpp" />
+    <ClCompile Include="source\Core\Platform\OpenGL\Texture.cpp" />
     <ClCompile Include="vendor\glm\glm\detail\glm.cpp" />
     <ClCompile Include="source\Core\Platform\OpenGL\VertexArray.cpp" />
+    <ClCompile Include="vendor\stb\stb_image_implementation.cpp" />
+    <ClCompile Include="vendor\stb\stb_vorbis.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vendor\glew-2.1.0\doc\advanced.html" />
@@ -565,7 +595,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>STARLIGHT_EXPORTS;SL_PLATFORM_WINDOWS;GLEW_STATIC;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)source;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew-2.1.0\include;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\glfw\include\GLFW;$(ProjectDir)vendor\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew-2.1.0\include;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb;$(ProjectDir)vendor\glfw\include\GLFW;$(ProjectDir)vendor\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -583,7 +613,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>STARLIGHT_EXPORTS;SL_PLATFORM_WINDOWS;GLEW_STATIC;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)source;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew-2.1.0\include;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\glfw\include\GLFW;$(ProjectDir)vendor\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew-2.1.0\include;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb;$(ProjectDir)vendor\glfw\include\GLFW;$(ProjectDir)vendor\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -601,7 +631,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>STARLIGHT_EXPORTS;SL_PLATFORM_WINDOWS;GLEW_STATIC;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)source;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew-2.1.0\include;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew-2.1.0\include;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb;$(ProjectDir)vendor\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
@@ -619,7 +649,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>STARLIGHT_EXPORTS;SL_PLATFORM_WINDOWS;GLEW_STATIC;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)source;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew-2.1.0\include;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew-2.1.0\include;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb;$(ProjectDir)vendor\glfw\include;$(ProjectDir)vendor\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>

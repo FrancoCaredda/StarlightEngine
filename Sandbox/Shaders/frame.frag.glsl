@@ -7,11 +7,11 @@ uniform sampler2D u_Texture;
 in Vertex
 {
     vec3 Position;
-    vec3 Color;
     vec2 TextureCoord;
 } vs_vertex;
 
 void main()
 {
-    FragColor = texture(u_Texture, vs_vertex.TextureCoord) * vec4(vs_vertex.Color, 1.0);
+    vec4 color = texture(u_Texture, vs_vertex.TextureCoord);
+    FragColor = color * vec4(vs_vertex.TextureCoord, 1.0, 1.0);
 }

@@ -8,17 +8,49 @@ using namespace Starlight;
 
 void MainWindow::Start()
 {
+	m_FrameBuffer = CreateFrameBuffer();
+	m_RenderBuffer = CreateRenderBuffer(DEPTH24_STENCIL8, m_Width, m_Height);
+	m_ColorBuffer = CreateTexture2D(RGBA, m_Width, m_Height);
+
+	m_FrameBuffer->AttachColorBuffer(COLOR_ATTACHMENT0, m_ColorBuffer);
+	m_FrameBuffer->AttachRenderBuffer(DEPTH_STENCIL_ATTACHMENT, m_RenderBuffer);
+
+	m_FrameBuffer->Bind();
+
+	if (!m_FrameBuffer->Check())
+	{
+		SL_FATAL("standard frame buffer isn\'t initialized!");
+	}
+	
+	m_FrameBuffer->Unbind();
+
+	if (!ShaderLibrary::CreateShaderProgram("frame", "Shaders/frame.vert.glsl", "Shaders/frame.frag.glsl"))
+	{
+		SL_FATAL("standard frame buffer isn\'t initialized!");
+	}
+
+	m_FrameShader = ShaderLibrary::GetShaderProgram("frame");
+
+
 	m_Input = new Input(this);
 	m_Input->DisableCursor();
 
 	Renderer::SetMainCamera(&m_Camera);
 	Renderer::SetProjection(glm::perspective(glm::radians(45.0f), (float)m_Width / (float)m_Height, 0.1f, 1000.0f));
 
+	std::vector<float> quadTextureData = {
+		-1.0f, -1.0f, 1.0f,		0.0f, 0.0f,
+		-1.0f,  1.0f, 1.0f,		0.0f, 1.0f,
+		 1.0f, -1.0f, 1.0f,		1.0f, 0.0f,
+		 1.0f,  1.0f, 1.0f,		1.0f, 1.0f
+	};
+
+
 	std::vector<float> data = {
-		-0.5f, -0.5f, 1.0f,		1.0f, 0.0f, 0.0f,
-		-0.5f,  0.5f, 1.0f,		0.0f, 1.0f, 0.0f,
-		 0.5f, -0.5f, 1.0f,		1.0f, 1.0f, 1.0f,
-		 0.5f,  0.5f, 1.0f,		0.0f, 0.0f, 1.0f
+		-0.5f, -0.5f, 1.0f,		1.0f, 1.0f, 1.0f,	0.0f, 0.0f,
+		-0.5f,  0.5f, 1.0f,		1.0f, 1.0f, 1.0f,   0.0f, 1.0f,
+		 0.5f, -0.5f, 1.0f,		1.0f, 1.0f, 1.0f,	1.0f, 0.0f,
+		 0.5f,  0.5f, 1.0f,		1.0f, 1.0f, 1.0f,	1.0f, 1.0f
 	};
 
 	std::vector<uint32_t> indecies = { 0, 1, 2, 2, 1, 3 };
@@ -29,6 +61,7 @@ void MainWindow::Start()
 	m_VBO->Write(data.data(), data.size() * sizeof(float), 0);
 	m_VBO->Bind();
 
+
 	m_IBO = CreateIndexBuffer();
 	m_IBO->Allocate(indecies.size() * sizeof(uint32_t));
 	m_IBO->Write(indecies, indecies.size() * sizeof(uint32_t), 0);
@@ -36,12 +69,27 @@ void MainWindow::Start()
 
 	m_VAO = CreateVertexArray();
 	m_VAO->SetVertexLayout({
-		{0, {3, 6 * sizeof(float), 0}},
-		{1, {3, 6 * sizeof(float), 3 * sizeof(float)}}
+		{0, {3, 8 * sizeof(float), 0}},
+		{1, {3, 8 * sizeof(float), 3 * sizeof(float)}},
+		{2, {2, 8 * sizeof(float), 6 * sizeof(float)}}
 	});
 	m_VAO->AttachVertexBuffer(m_VBO);
 	m_VAO->SetIndexBuffer(m_IBO);
 	m_VAO->Bind();
+
+	m_FrameVBO = CreateVertexBuffer();
+	m_FrameVBO->Allocate(quadTextureData.size() * sizeof(float));
+	m_FrameVBO->Write(quadTextureData.data(), quadTextureData.size() * sizeof(float), 0);
+	m_FrameVBO->Bind();
+
+	m_FrameVAO = CreateVertexArray();
+	m_FrameVAO->SetIndexBuffer(m_IBO);
+	m_FrameVAO->AttachVertexBuffer(m_FrameVBO);
+	m_FrameVAO->SetVertexLayout({
+		{0, {3, 5 * sizeof(float), 0}},
+		{1, {2, 5 * sizeof(float), 3 * sizeof(float)}}
+	});
+
 
 	ShaderLibrary::CreateShaderProgram("object", "Shaders/object.vert.glsl", "Shaders/object.frag.glsl");
 	m_Program = ShaderLibrary::GetShaderProgram("object");
@@ -51,13 +99,52 @@ void MainWindow::Start()
 	glm::mat4 model = glm::rotate(glm::mat4(1.0f), glm::radians(-45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::translate(model, glm::vec3(0.0f, 3.0f, -5.0f));
 	m_Program->SetUniformMat4f("u_Model", model);
+
+	m_Texture = CreateTexture2D(RGB, "Textures/brick.jpg");
+	m_Texture->SetActiveSlot(1);
+	m_Texture->Bind();
+
+	m_Program->SetUniformi("u_Texture", 1);
 }
 
 void MainWindow::Update(float deltaTime)
 {
+	Renderer::Enable(DEPTH_TEST);
+	Renderer::Enable(STENCIL_TEST);
+
+	m_FrameBuffer->Bind();
+
+	Renderer::Clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT | STENCIL_BUFFER_BIT);
+
 	ProcessInput(deltaTime);
 	m_PreviousMousePosition = m_Input->GetMousePosition();
+
+	m_VAO->Bind();
+	m_VBO->Bind();
+	m_IBO->Bind();
+	m_Program->Bind();
+
+	m_Texture->SetActiveSlot(1);
+	m_Texture->Bind();
+	m_Program->SetUniformi("u_Texture", 1);
 	Renderer::DrawIndecies(m_VAO, m_IBO, m_Program);
+
+	m_FrameBuffer->Unbind();
+
+	Renderer::Disable(DEPTH_TEST);
+	Renderer::Disable(STENCIL_TEST);
+	Renderer::Clear(COLOR_BUFFER_BIT);
+
+	m_FrameVAO->Bind();
+	m_FrameVBO->Bind();
+	m_IBO->Bind();
+	m_FrameShader->Bind();
+
+	m_ColorBuffer->SetActiveSlot(0);
+	m_ColorBuffer->Bind();
+	m_FrameShader->SetUniformi("u_Texture", 0);
+
+	Renderer::DrawTexture(m_FrameVAO, m_IBO, m_FrameShader);
 }
 
 void MainWindow::ProcessInput(float deltaTime) noexcept

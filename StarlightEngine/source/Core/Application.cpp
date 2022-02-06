@@ -8,12 +8,18 @@ namespace Starlight
 
 	bool Application::Init() noexcept
 	{
-		return s_Instance.m_Inited = glfwInit();
+		s_Instance.m_Inited = glfwInit();
+
+		return s_Instance.m_Inited;
 	}
 
 	void Application::SetCurrentContext(AWindow* context)
 	{
 		s_Instance.m_CurrentContext = context;
+
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwMakeContextCurrent(s_Instance.m_CurrentContext->m_Context);
 	}
 
@@ -34,13 +40,12 @@ namespace Starlight
 
 		while (!glfwWindowShouldClose(context))
 		{
-			Renderer::Clear();
-
 			deltaTime = static_cast<float>(glfwGetTime()) - previousTime;
 			previousTime += deltaTime;
 	
 			s_Instance.m_CurrentContext->Update(deltaTime);
 
+			
 			glfwSwapBuffers(context);
 			glfwPollEvents();
 		}

@@ -7,6 +7,7 @@
 #include "Core/Renderer/IBuffers.h"
 #include "Core/Renderer/IVertexArray.h"
 
+#include "Core/enums.h"
 
 namespace Starlight
 {
@@ -19,8 +20,12 @@ namespace Starlight
 
 			static bool Init() noexcept;
 			
-			static void Clear() noexcept;
+			static void Enable(Test test) noexcept;
+			static void Disable(Test test) noexcept;
+
+			static void Clear(int buffers) noexcept;
 			static void ClearColor(const glm::vec4& color);
+			static void DrawFrame() noexcept;
 			static void DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program) noexcept;
 
 			static void Shutdown() noexcept;

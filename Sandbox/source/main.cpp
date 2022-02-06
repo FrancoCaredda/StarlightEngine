@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 
 	Starlight::Application::SetCurrentContext(window);
 
-	if (!Starlight::Renderer::Init(Starlight::OPENGL_API))
+	if (!Starlight::Renderer::Init(OPENGL_API, 1200, 900))
 	{
 		SL_FATAL("Renderer isn\'t initialized");
 		return -2;

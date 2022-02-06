@@ -30,5 +30,7 @@
   <ItemGroup>
     <None Include="Shaders\object.vert.glsl" />
     <None Include="Shaders\object.frag.glsl" />
+    <None Include="Shaders\frame.vert.glsl" />
+    <None Include="Shaders\frame.frag.glsl" />
   </ItemGroup>
 </Project>

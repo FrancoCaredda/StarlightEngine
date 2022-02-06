@@ -49,7 +49,9 @@ namespace Starlight
 			virtual void* Map() noexcept override;
 			virtual void Unmap() noexcept override;
 
-			inline uint32_t GetCount() const noexcept { return m_Count; }
+			inline uint32_t GetCount() const noexcept { 
+				return m_Count; 
+			}
 
 			virtual ~IndexBuffer();
 		private:

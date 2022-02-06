@@ -2,6 +2,7 @@
 
 #include "Buffers.h"
 
+
 namespace Starlight
 {
 	namespace OpenGL
@@ -12,15 +13,22 @@ namespace Starlight
 		{
 			s_Instance.m_Inited = (glewInit() == GLEW_OK);
 
-			if (s_Instance.m_Inited)
-				glEnable(GL_DEPTH_TEST);
-
 			return s_Instance.m_Inited;
 		}
 
-		void GLRenderer::Clear() noexcept
+		void GLRenderer::Enable(Test test) noexcept
 		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glEnable(test);
+		}
+
+		void GLRenderer::Disable(Test test) noexcept
+		{
+			glDisable(test);
+		}
+
+		void GLRenderer::Clear(int buffers) noexcept
+		{
+			glClear(buffers);
 		}
 
 		void GLRenderer::ClearColor(const glm::vec4& color)
@@ -28,17 +36,21 @@ namespace Starlight
 			glClearColor(color.r, color.g, color.b, color.a);
 		}
 
+		void GLRenderer::DrawFrame() noexcept
+		{
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		}
+
 		void GLRenderer::DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program) noexcept
 		{
 			vertexArray->Bind();
 			program->Bind();
-			glDrawElements(GL_TRIANGLES, dynamic_cast<OpenGL::IndexBuffer*>(indexBuffer)->GetCount(), GL_UNSIGNED_INT, NULL);
+			glDrawElements(GL_TRIANGLES, dynamic_cast<OpenGL::IndexBuffer*>(indexBuffer)->GetCount(), GL_UNSIGNED_INT, nullptr);
 		}
 
 		void GLRenderer::Shutdown() noexcept
 		{
-			if (s_Instance.m_Inited)
-				glDisable(GL_DEPTH_TEST);
+			s_Instance.m_Inited = false;
 		}
 	}
 }

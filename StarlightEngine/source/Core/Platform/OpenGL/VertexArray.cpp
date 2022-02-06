@@ -29,11 +29,11 @@ namespace Starlight
 		{
 			glBindVertexArray(m_Id);
 
-			for (auto i = layout.begin(); i != layout.end(); i++)
-				glVertexAttribPointer(i->first, i->second.x, GL_FLOAT, GL_FALSE, i->second.y, (const void*)i->second.z);
+			for (int i = 0; i < layout.size(); i++)
+				glVertexAttribPointer(layout[i].first, layout[i].second.x, GL_FLOAT, GL_FALSE, layout[i].second.y, (const void*)layout[i].second.z);
 
-			for (auto i = layout.begin(); i != layout.end(); i++)
-				glEnableVertexAttribArray(i->first);
+			for (int i = 0; i < layout.size(); i++)
+				glEnableVertexAttribArray(layout[i].first);
 
 			glBindVertexArray(0);
 		}

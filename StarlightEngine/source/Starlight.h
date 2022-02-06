@@ -9,6 +9,7 @@
 #include "Core/Application.h"
 #include "Core/AWindow.h"
 #include "Core/Input.h"
+#include "Core/enums.h"
 #include "Core/Log.h"
 /* -------------------------------------- */
 
@@ -17,6 +18,8 @@
 #include "Core/Renderer/IBuffers.h"
 #include "Core/Renderer/IVertexArray.h"
 #include "Core/Renderer/IShader.h"
+#include "Core/Renderer/ITexture.h"
 #include "Core/Renderer/ShaderLibrary.h"
+#include "Core/Renderer/IFrameBuffer.h"
 #include "Core/Renderer/Camera.h"
 /* -------------------------------------- */

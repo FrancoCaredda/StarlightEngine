@@ -7,26 +7,31 @@
 #include "IVertexArray.h"
 #include "IShader.h"
 #include "Camera.h"
+#include "IFrameBuffer.h"
+
+#include "Core/enums.h"
 
 namespace Starlight
 {
-	enum API
-	{
-		OPENGL_API = 0,
-		VULKAN_API = 1,
-		DIRECTX_API = 2
-	};
-
 	class STARLIGHT_API Renderer
 	{
 	public:
 		SL_SINGLE_CLASS(Renderer);
 	
-		static bool Init(API rendererApi);
+		static bool Init(API rendererApi, int width, int height);
 
-		static void Clear() noexcept;
+		static void Enable(Test test) noexcept;
+		static void Disable(Test test) noexcept;
+
+		static void Clear(int buffers) noexcept;
 		static void ClearColor(const glm::vec4& color) noexcept;
 		static void DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program);
+		static void DrawTexture(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program);
+		static void DrawFrameBuffer() noexcept;
+
+
+		static void BindStdFrameBuffer() noexcept;
+		static void UnbindStdFrameBuffer() noexcept;
 
 		static void SetMainCamera(Camera* camera) noexcept;
 		static void SetProjection(const glm::mat4& projection) noexcept;
@@ -41,11 +46,26 @@ namespace Starlight
 
 		static Renderer s_Instance;
 
+		// --------------------View/Projection--------------------
 		Camera* m_Camera;
 		glm::mat4 m_Projection;
+		// -------------------------------------------------------
 
+		// -------------------STD Frame Buffer--------------------
+		IFrameBuffer* m_FrameBuffer;
+		IRenderBuffer* m_RenderBuffer;
+		ITexture2D* m_ColorBuffer;
+		IVertexArray* m_FrameVAO;
+		IVertexBuffer* m_FrameVBO;
+		IIndexBuffer* m_FrameIBO;
+		IShaderProgram* m_FrameShader;
+		// -------------------------------------------------------
+
+
+		// ------------------Renderer data------------------------
 		API m_RendererApi;
 		bool m_Inited = false;
+		// -------------------------------------------------------
 	};
 }
 
