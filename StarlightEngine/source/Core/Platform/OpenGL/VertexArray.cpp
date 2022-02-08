@@ -11,7 +11,9 @@ namespace Starlight
 
 		void VertexArray::Bind() const noexcept
 		{
-			m_IndexBuffer->Bind();
+			if (m_IndexBuffer != nullptr)
+				m_IndexBuffer->Bind();
+			
 			m_VertexBuffers[0]->Bind();
 
 			glBindVertexArray(m_Id);
@@ -19,7 +21,9 @@ namespace Starlight
 
 		void VertexArray::Unbind() const noexcept
 		{
-			m_IndexBuffer->Unbind();
+			if (m_IndexBuffer != nullptr)
+				m_IndexBuffer->Unbind();
+
 			m_VertexBuffers[0]->Unbind();
 
 			glBindVertexArray(0);

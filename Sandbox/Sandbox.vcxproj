@@ -28,6 +28,11 @@
   <ItemGroup>
     <None Include="Shaders\frame.frag.glsl" />
     <None Include="Shaders\frame.vert.glsl" />
+    <None Include="Shaders\includes\lightTypes.glsl" />
+    <None Include="Shaders\includes\material.glsl" />
+    <None Include="Shaders\normals.frag.glsl" />
+    <None Include="Shaders\normals.geom.glsl" />
+    <None Include="Shaders\normals.vert.glsl" />
     <None Include="Shaders\object.frag.glsl" />
     <None Include="Shaders\object.vert.glsl" />
   </ItemGroup>
@@ -102,6 +107,7 @@
       <PreprocessorDefinitions>OPENGL_RENDERING;SL_PLATFORM_WINDOWS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)StarlightEngine\source;$(SolutionDir)StarlightEngine\vendor\glfw\include;$(SolutionDir)StarlightEngine\vendor\glew-2.1.0\include;$(SolutionDir)StarlightEngine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,6 +125,7 @@
       <PreprocessorDefinitions>OPENGL_RENDERING;SL_PLATFORM_WINDOWS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)StarlightEngine\source;$(SolutionDir)StarlightEngine\vendor\glfw\include;$(SolutionDir)StarlightEngine\vendor\glew-2.1.0\include;$(SolutionDir)StarlightEngine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +143,7 @@
       <PreprocessorDefinitions>OPENGL_RENDERING;SL_PLATFORM_WINDOWS; GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)StarlightEngine\source;$(SolutionDir)StarlightEngine\vendor\glfw\include;$(SolutionDir)StarlightEngine\vendor\glew-2.1.0\include;$(SolutionDir)StarlightEngine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,6 +161,7 @@
       <PreprocessorDefinitions>OPENGL_RENDERING;SL_PLATFORM_WINDOWS;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)StarlightEngine\source;$(SolutionDir)StarlightEngine\vendor\glfw\include;$(SolutionDir)StarlightEngine\vendor\glew-2.1.0\include;$(SolutionDir)StarlightEngine\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

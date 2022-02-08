@@ -23,3 +23,10 @@
 #include "Core/Renderer/IFrameBuffer.h"
 #include "Core/Renderer/Camera.h"
 /* -------------------------------------- */
+
+/* --------------Components-------------- */
+#include "Components/Graphics/Light.h"
+#include "Components/Graphics/Material.h"
+#include "Components/Model/Model.h"
+/* -------------------------------------- */
+

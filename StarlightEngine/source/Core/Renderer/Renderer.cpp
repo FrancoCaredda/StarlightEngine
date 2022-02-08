@@ -145,6 +145,19 @@ namespace Starlight
         }
     }
 
+    void Renderer::DrawPoints(uint32_t count) noexcept
+    {
+        switch (s_Instance.m_RendererApi)
+        {
+        case OPENGL_API:
+            OpenGL::GLRenderer::DrawPoints(count);
+            break;
+        default:
+            SL_ERROR("Starlight supports OpenGL now");
+            break;
+        }
+    }
+
     void Renderer::DrawFrame() noexcept
     {
         s_Instance.m_FrameBuffer->Unbind();
@@ -170,6 +183,11 @@ namespace Starlight
         }
 
         s_Instance.m_FrameBuffer->Bind();
+    }
+
+    ITexture2D* Renderer::GetFrameColor() noexcept
+    {
+        return s_Instance.m_ColorBuffer;
     }
 
     void Renderer::SetMainCamera(Camera* camera) noexcept

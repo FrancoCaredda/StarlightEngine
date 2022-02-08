@@ -32,5 +32,10 @@
     <None Include="Shaders\object.frag.glsl" />
     <None Include="Shaders\frame.vert.glsl" />
     <None Include="Shaders\frame.frag.glsl" />
+    <None Include="Shaders\normals.geom.glsl" />
+    <None Include="Shaders\normals.frag.glsl" />
+    <None Include="Shaders\normals.vert.glsl" />
+    <None Include="Shaders\includes\material.glsl" />
+    <None Include="Shaders\includes\lightTypes.glsl" />
   </ItemGroup>
 </Project>

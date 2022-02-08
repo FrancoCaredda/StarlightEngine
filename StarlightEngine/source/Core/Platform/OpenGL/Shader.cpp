@@ -1,6 +1,7 @@
 #include "Shader.h"
 
 #include "Core/Log.h"
+#include "Core/ShaderLanguage/Preprocessor.h"
 
 #include "glm/gtc/type_ptr.hpp"
 
@@ -28,6 +29,8 @@ namespace Starlight
 
 		void Shader::Load(const std::string& filepath)
 		{
+			Preprocessor preprocessor;
+
 			std::ifstream file(filepath);
 
 			if (!file.is_open())
@@ -43,18 +46,17 @@ namespace Starlight
 			{
 				file.getline(Buffer, BUFFER_SIZE);
 				
-				source += Buffer;
-				source += "\n";
+				if (!preprocessor.ProcessLine(Buffer, source))
+				{
+					source += Buffer;
+					source += "\n";
+				}
 
-				memset(Buffer, 0, BUFFER_SIZE);
+				memset(Buffer, 0, strlen(Buffer));
 
 				if (file.fail() || file.eof())
 					break;
 			}
-
-#ifdef _DEBUG
-			std::cout << source << std::endl;
-#endif
 			
 			const char* internalSource = source.c_str();
 

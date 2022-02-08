@@ -60,6 +60,8 @@ namespace Starlight
 	void Application::Shutdown() noexcept
 	{
 		if (s_Instance.m_Inited)
+		{
 			glfwTerminate();
+		}
 	}
 }

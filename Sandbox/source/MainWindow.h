@@ -16,10 +16,14 @@ public:
 
 	virtual ~MainWindow();
 private:
-	Starlight::IVertexArray* m_VAO;
-	Starlight::IVertexBuffer* m_VBO;
-	Starlight::IIndexBuffer* m_IBO;
-	Starlight::ITexture2D* m_Texture;
+	Starlight::Mesh* m_Mesh;
+	Starlight::Material m_Material;
+	Starlight::IVertexBuffer* m_VerteciesData;
+	Starlight::IVertexArray* m_VerteciesLayout;
+
+	glm::mat4 m_Model;
+
+	bool m_Normals = false;
 
 	Starlight::Input* m_Input;
 

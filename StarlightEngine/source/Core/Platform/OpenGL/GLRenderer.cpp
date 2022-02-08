@@ -41,6 +41,11 @@ namespace Starlight
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		}
 
+		void GLRenderer::DrawPoints(uint32_t count) noexcept
+		{
+			glDrawArrays(GL_POINTS, 0, count);
+		}
+
 		void GLRenderer::DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program) noexcept
 		{
 			vertexArray->Bind();
