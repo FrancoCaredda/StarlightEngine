@@ -6,6 +6,6 @@ We are working on assets handling now. <br/>
 Task list
 - [x] Loading models
 - [ ] Loading materials
-- [ ] Material manager
+- [ ] Asset manager
 - [ ] Batching model's meshes
 - [ ] Optimization
