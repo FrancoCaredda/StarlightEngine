@@ -1767,9 +1767,6 @@
     <None Include="vendor\assimp\include\assimp\color4.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="vendor\assimp\include\assimp\material.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="vendor\assimp\include\assimp\matrix3x3.inl">
       <Filter>Header Files</Filter>
     </None>

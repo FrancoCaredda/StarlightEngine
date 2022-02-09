@@ -1,7 +1,9 @@
 #include "Model.h"
 
-
 #include "glm/gtc/type_ptr.hpp"
+
+#include "Core/Renderer/ITexture.h"
+#include "Core/Log.h"
 
 namespace Starlight
 {
@@ -31,7 +33,7 @@ namespace Starlight
 		for (int i = 0; i < m_Vertecies.size(); i++)
 		{
 			m_VertexBuffer->Write(glm::value_ptr(m_Vertecies[i].Position),     sizeof(glm::vec3), offset);
-			m_VertexBuffer->Write(glm::value_ptr(m_Vertecies[i].Normals),      sizeof(glm::vec3), offset + offsetof(Vertex, Normals));
+			m_VertexBuffer->Write(glm::value_ptr(m_Vertecies[i].Normal),       sizeof(glm::vec3), offset + offsetof(Vertex, Normal));
 			m_VertexBuffer->Write(glm::value_ptr(m_Vertecies[i].TextureCoord), sizeof(glm::vec2), offset + offsetof(Vertex, TextureCoord));
 
 			offset += sizeof(Vertex);
@@ -45,7 +47,7 @@ namespace Starlight
 
 		m_VertexArray->SetVertexLayout({
 			{0, {3, sizeof(Vertex), 0}},
-			{1, {3, sizeof(Vertex), offsetof(Vertex, Normals)}},
+			{1, {3, sizeof(Vertex), offsetof(Vertex, Normal)}},
 			{2, {2, sizeof(Vertex), offsetof(Vertex, TextureCoord)}}
 		});
 
@@ -70,5 +72,121 @@ namespace Starlight
 		delete m_VertexArray;
 		delete m_VertexBuffer;
 		delete m_IndexBuffer;
+	}
+
+	bool Model::Load(const std::string& filename) noexcept
+	{
+		Assimp::Importer importer;
+
+		m_Scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
+
+		uint32_t position = filename.find_last_of("/\\");
+		m_NativePath = filename.substr(0, position);
+
+		if (m_Scene == nullptr)
+		{
+			SL_ERROR(importer.GetErrorString());
+			return false;
+		}
+
+		ProcessScene();
+
+		return true;
+	}
+
+	Model::~Model()
+	{
+		for (int i = 0; i < m_Meshes.size(); i++)
+			delete m_Meshes[i];
+
+		m_Meshes.clear();
+	}
+
+	void Model::ProcessScene()
+	{
+		ProcessNode(m_Scene->mRootNode);
+	}
+
+	void Model::ProcessNode(const aiNode* node)
+	{
+		for (int i = 0; i < node->mNumMeshes; i++)
+		{
+			m_Meshes.push_back(new Mesh());
+			ReadSingleMesh(m_Scene->mMeshes[node->mMeshes[i]],
+				m_Meshes[m_Meshes.size() - 1]);
+
+			if (m_Material == nullptr)
+				ReadSingleMaterial(m_Scene->mMeshes[node->mMeshes[0]]);
+		}
+
+		for (int i = 0; i < node->mNumChildren; i++)
+			ProcessNode(node->mChildren[i]);
+	}
+
+	void Model::ReadSingleMesh(aiMesh* mesh, Mesh* outMesh)
+	{
+		std::vector<Vertex> vertecies(mesh->mNumVertices);
+		std::vector<uint32_t> indecies;
+
+		glm::vec3 temp(0);
+
+		for (int i = 0; i < mesh->mNumVertices; i++)
+		{
+			if (mesh->HasPositions())
+			{
+				temp.x = mesh->mVertices[i].x;
+				temp.y = mesh->mVertices[i].y;
+				temp.z = mesh->mVertices[i].z;
+
+				vertecies[i].Position = temp;
+			}
+
+			if (mesh->HasNormals())
+			{
+				temp.x = mesh->mNormals[i].x;
+				temp.y = mesh->mNormals[i].y;
+				temp.z = mesh->mNormals[i].z;
+
+				vertecies[i].Normal = temp;
+			}
+
+			if (mesh->HasTextureCoords(i))
+			{
+				temp.x = mesh->mTextureCoords[i]->x;
+				temp.y = mesh->mTextureCoords[i]->y;
+
+				vertecies[i].TextureCoord = { temp.x, temp.y };
+			}
+		}
+
+		for (int i = 0; i < mesh->mNumFaces; i++)
+		{
+			aiFace face = mesh->mFaces[i];
+
+			for (int j = 0; j < face.mNumIndices; j++)
+				indecies.push_back(face.mIndices[j]);
+		}
+
+		outMesh->SetVertecies(vertecies);
+		outMesh->SetIndecies(indecies);
+		outMesh->WriteData();
+	}
+
+	void Model::ReadSingleMaterial(aiMesh* mesh)
+	{
+		aiMaterial* material = m_Scene->mMaterials[mesh->mMaterialIndex];
+
+		aiString path;
+		std::string fullPath;
+
+		m_Material = new Material;
+
+		material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+		fullPath = m_NativePath + "/" + path.C_Str();
+		m_Material->Diffuse = CreateTexture2D(RGB, fullPath);
+
+		material->GetTexture(aiTextureType_SPECULAR, 0, &path);
+		fullPath = m_NativePath + "/" + path.C_Str();
+		m_Material->Specular = CreateTexture2D(RGB, fullPath);
 	}
 }

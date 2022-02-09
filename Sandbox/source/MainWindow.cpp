@@ -14,14 +14,6 @@ void MainWindow::Start()
 	Renderer::SetMainCamera(&m_Camera);
 	Renderer::SetProjection(glm::perspective(glm::radians(45.0f), (float)m_Width / (float)m_Height, 0.1f, 1000.0f));
 
-	std::vector<Vertex> newData = {
-				// POSITIONS		 // NORMALS			  // TEXTURE COORDS
-		Vertex{{-0.5f, -0.5f, 1.0f}, {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f}},
-		Vertex{{-0.5f,  0.5f, 1.0f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f}},
-		Vertex{{ 0.5f, -0.5f, 1.0f}, {0.0f, 0.0f, -1.0f}, {1.0f, 0.0f}},
-		Vertex{{ 0.5f,  0.5f, 1.0f}, {0.0f, 0.0f, -1.0f}, {1.0f, 1.0f}}
-	};
-
 	if (ShaderLibrary::CreateShaderProgram("object", "Shaders/object.vert.glsl", "Shaders/object.frag.glsl") != true)
 	{
 		SL_ERROR("Something went wrong with creating object shader");
@@ -32,27 +24,14 @@ void MainWindow::Start()
 		SL_ERROR("Something went wrong with creating normals shader");
 	}
 
-	std::vector<uint32_t> indecies = { 0, 1, 2, 2, 1, 3 };
-
-	m_Mesh = new Mesh();
-	m_Mesh->SetVertecies(newData);
-	m_Mesh->SetIndecies(indecies);
-		
-	m_Mesh->WriteData();
+	m_Object.Load("Assets/backpack/backpack.obj");
 
 	m_Program = ShaderLibrary::GetShaderProgram("object");
-
 	m_Program->Bind();
 
-	m_Model = glm::rotate(glm::mat4(1.0f), glm::radians(-250.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	m_Model = glm::translate(m_Model, glm::vec3(0.0f, 0.0f, 2.0f));
+	m_Model = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.1f, 0.0f, 0.0f));
+	m_Model = glm::translate(m_Model, glm::vec3(0.0f, 0.0f, 0.0f));
 	m_Program->SetUniformMat4f("u_Model", m_Model);
-
-	m_Material.Diffuse = CreateTexture2D(RGB, "Textures/brick.jpg");
-	m_Material.Diffuse->SetActiveSlot(1);
-	m_Material.Diffuse->Bind();
-
-	m_Program->SetUniformi("u_Material.Diffuse", 1);
 }
 
 void MainWindow::Update(float deltaTime)
@@ -60,19 +39,9 @@ void MainWindow::Update(float deltaTime)
 	ProcessInput(deltaTime);
 	m_PreviousMousePosition = m_Input->GetMousePosition();
 
-	m_Mesh->Bind();
 	m_Program->Bind();
-
-	m_Material.Diffuse->SetActiveSlot(1);
-	m_Material.Diffuse->Bind();
-	m_Program->SetUniformi("u_Material.Diffuse", 1);
-	Renderer::DrawIndecies(m_Mesh->GetVertexArray(), m_Mesh->GetIndexBuffer(), m_Program);
-
-	IShaderProgram* normals = ShaderLibrary::GetShaderProgram("normals");
-	normals->Bind();
-	normals->SetUniformf("u_Magnitude", 0.1f);
-	normals->SetUniformMat4f("u_Model", m_Model);
-	Renderer::DrawIndecies(m_Mesh->GetVertexArray(), m_Mesh->GetIndexBuffer(), normals);
+	
+	Renderer::DrawModel(m_Object, m_Program);
 }
 
 void MainWindow::ProcessInput(float deltaTime) noexcept
@@ -115,5 +84,5 @@ void MainWindow::ProcessInput(float deltaTime) noexcept
 
 MainWindow::~MainWindow()
 {
-	delete m_Mesh;
+	//delete m_Mesh;
 }

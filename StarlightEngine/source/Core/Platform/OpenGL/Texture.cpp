@@ -50,6 +50,8 @@ namespace Starlight
 			glGenerateMipmap(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, 0);
 
+			m_Path = filepath;
+
 			stbi_image_free(data);
 			return true;
 		}
@@ -72,6 +74,11 @@ namespace Starlight
 		uint32_t Texture2D::GetId() const noexcept
 		{
 			return m_Id;
+		}
+
+		const std::string& Texture2D::GetPath() const noexcept
+		{
+			return m_Path;
 		}
 		
 		Texture2D::~Texture2D()

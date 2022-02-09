@@ -13,10 +13,10 @@ namespace Starlight
         s_Instance.m_RendererApi = rendererApi;
 
         std::vector<float> quad = {
-                -1.0f, -1.0f, 1.0f,     0.0f, 0.0f,
-                -1.0f,  1.0f, 1.0f,     0.0f, 1.0f,
-                 1.0f, -1.0f, 1.0f,     1.0f, 0.0f,
-                 1.0f,  1.0f, 1.0f,     1.0f, 1.0f
+                -1.0f, -1.0f, 0.0f,     0.0f, 0.0f,
+                -1.0f,  1.0f, 0.0f,     0.0f, 1.0f,
+                 1.0f, -1.0f, 0.0f,     1.0f, 0.0f,
+                 1.0f,  1.0f, 0.0f,     1.0f, 1.0f
         };
 
         std::vector<uint32_t> quadIndecies = { 0, 1, 2, 2, 1, 3 };
@@ -28,9 +28,9 @@ namespace Starlight
 
             // It's not OPENGL specific code
 
-            s_Instance.m_FrameBuffer = CreateFrameBuffer();
+            s_Instance.m_FrameBuffer =  CreateFrameBuffer();
             s_Instance.m_RenderBuffer = CreateRenderBuffer(DEPTH24_STENCIL8, width, height);
-            s_Instance.m_ColorBuffer = CreateTexture2D(RGBA, width, height);
+            s_Instance.m_ColorBuffer =  CreateTexture2D(RGBA, width, height);
             s_Instance.m_FrameBuffer->AttachColorBuffer(COLOR_ATTACHMENT0, s_Instance.m_ColorBuffer);
             s_Instance.m_FrameBuffer->AttachRenderBuffer(DEPTH_STENCIL_ATTACHMENT, s_Instance.m_RenderBuffer);
             s_Instance.m_FrameBuffer->Bind();
@@ -69,6 +69,8 @@ namespace Starlight
             }
 
             s_Instance.m_FrameShader = ShaderLibrary::GetShaderProgram("frame");
+
+            //s_Instance.m_FrameBuffer->Unbind();
 
             return s_Instance.m_Inited;
         default:
@@ -158,14 +160,34 @@ namespace Starlight
         }
     }
 
+    void Renderer::DrawModel(const Model& model, IShaderProgram* program)
+    {
+        model.m_Material->Diffuse->SetActiveSlot(2);
+        model.m_Material->Diffuse->Bind();
+
+        program->SetUniformi("u_Material.Diffuse", 2);
+
+        model.m_Material->Specular->SetActiveSlot(3);
+        model.m_Material->Specular->Bind();
+        program->SetUniformi("u_Material.Specular", 3);
+
+        for (int i = 0; i < model.m_Meshes.size(); i++)
+        {
+            model.m_Meshes[i]->Bind();
+            DrawIndecies(model.m_Meshes[i]->GetVertexArray(), model.m_Meshes[i]->GetIndexBuffer(), program);
+        }
+    }
+
     void Renderer::DrawFrame() noexcept
     {
         s_Instance.m_FrameBuffer->Unbind();
         Disable(DEPTH_TEST);
         Disable(STENCIL_TEST);
         Clear(COLOR_BUFFER_BIT);
-        
+       
         s_Instance.m_FrameVAO->Bind();
+        s_Instance.m_FrameVBO->Bind();
+        s_Instance.m_FrameIBO->Bind();
         s_Instance.m_FrameShader->Bind();
         s_Instance.m_ColorBuffer->SetActiveSlot(0);
         s_Instance.m_ColorBuffer->Bind();

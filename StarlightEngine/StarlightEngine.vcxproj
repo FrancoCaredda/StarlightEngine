@@ -464,7 +464,6 @@
   <ItemGroup>
     <None Include="source\cpp.hint" />
     <None Include="vendor\assimp\include\assimp\color4.inl" />
-    <None Include="vendor\assimp\include\assimp\material.inl" />
     <None Include="vendor\assimp\include\assimp\matrix3x3.inl" />
     <None Include="vendor\assimp\include\assimp\matrix4x4.inl" />
     <None Include="vendor\assimp\include\assimp\quaternion.inl" />

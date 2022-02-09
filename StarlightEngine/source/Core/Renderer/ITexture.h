@@ -20,6 +20,8 @@ namespace Starlight
 		virtual void SetActiveSlot(int slot) noexcept = 0;
 		virtual uint32_t GetId() const noexcept = 0;
 
+		virtual const std::string& GetPath() const noexcept = 0;
+
 		virtual ~ITexture2D() = default;
 
 		friend class IFrameBuffer;

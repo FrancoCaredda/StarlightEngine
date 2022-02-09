@@ -11,6 +11,8 @@
 
 #include "Core/enums.h"
 
+#include "Components/Model/Model.h"
+
 namespace Starlight
 {
 	class STARLIGHT_API Renderer
@@ -27,6 +29,8 @@ namespace Starlight
 		static void ClearColor(const glm::vec4& color) noexcept;
 		static void DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program);
 		static void DrawPoints(uint32_t count) noexcept;
+
+		static void DrawModel(const Model& model, IShaderProgram* program);
 		static void DrawFrame() noexcept;
 
 		static ITexture2D* GetFrameColor() noexcept;

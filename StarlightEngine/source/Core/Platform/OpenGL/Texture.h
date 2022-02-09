@@ -22,11 +22,15 @@ namespace Starlight
 
 			virtual void SetActiveSlot(int slot) noexcept override;
 			virtual uint32_t GetId() const noexcept override;
+
+			virtual const std::string& GetPath() const noexcept override;
 			
 			virtual ~Texture2D();
 		private:
 			uint32_t m_Id;
 			uint32_t m_Slot;
+
+			std::string m_Path;
 		
 			glm::uvec2 m_Size;
 		};

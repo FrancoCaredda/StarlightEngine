@@ -15,5 +15,5 @@ in Vertex
 
 void main()
 {
-    FragColor = texture(u_Material.Diffuse, vs_vertex.TextureCoord);
+    FragColor = texture(u_Material.Diffuse, vs_vertex.TextureCoord) * texture(u_Material.Specular, vs_vertex.TextureCoord);
 }

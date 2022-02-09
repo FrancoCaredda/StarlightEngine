@@ -45,6 +45,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
+#include <algorithm>
+
 #ifdef __GNUC__
 #   pragma GCC system_header
 #endif
@@ -78,6 +80,8 @@ AI_FORCE_INLINE unsigned int aiMaterial::GetTextureCount(aiTextureType type) con
     return ::aiGetMaterialTextureCount(this,type);
 }
 
+#define MIN(X, Y) ((X) > (Y)) ? (Y) : (X)
+
 // ---------------------------------------------------------------------------
 template <typename Type>
 AI_FORCE_INLINE aiReturn aiMaterial::Get(const char* pKey,unsigned int type,
@@ -98,7 +102,8 @@ AI_FORCE_INLINE aiReturn aiMaterial::Get(const char* pKey,unsigned int type,
             return AI_FAILURE;
         }
 
-        iNum = static_cast<unsigned int>(std::min(static_cast<size_t>(iNum),prop->mDataLength / sizeof(Type)));
+       // iNum = static_cast<unsigned int>(std::min(static_cast<size_t>(iNum),prop->mDataLength / sizeof(Type)));
+        iNum = static_cast<uint32_t>(MIN(static_cast<size_t>(iNum), prop->mDataLength / sizeof(Type)));
         ::memcpy(pOut,prop->mData,iNum * sizeof(Type));
         if (pMax) {
             *pMax = iNum;
