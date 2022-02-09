@@ -30,7 +30,9 @@ namespace Starlight
 		{
 		case OPENGL_API:
 			texture = new OpenGL::Texture2D();
-			texture->Load(format, filepath);
+			if (!texture->Load(format, filepath))
+				return nullptr;
+
 			return texture;
 		default:
 			SL_ERROR("Starlight engine supports only OpenGL now");

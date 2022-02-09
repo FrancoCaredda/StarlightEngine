@@ -162,18 +162,30 @@ namespace Starlight
 
     void Renderer::DrawModel(const Model& model, IShaderProgram* program)
     {
-        model.m_Material->Diffuse->SetActiveSlot(2);
-        model.m_Material->Diffuse->Bind();
-
-        program->SetUniformi("u_Material.Diffuse", 2);
-
-        model.m_Material->Specular->SetActiveSlot(3);
-        model.m_Material->Specular->Bind();
-        program->SetUniformi("u_Material.Specular", 3);
-
         for (int i = 0; i < model.m_Meshes.size(); i++)
         {
             model.m_Meshes[i]->Bind();
+
+            model.m_Meshes[i]->m_Material->Diffuse[0]->SetActiveSlot(2);
+            model.m_Meshes[i]->m_Material->Diffuse[0]->Bind();
+
+            program->SetUniformi("u_Material.Diffuse", 2);
+
+            model.m_Meshes[i]->m_Material->Specular[0]->SetActiveSlot(3);
+            model.m_Meshes[i]->m_Material->Specular[0]->Bind();
+
+            program->SetUniformi("u_Material.Specular", 3);
+
+            DrawIndecies(model.m_Meshes[i]->GetVertexArray(), model.m_Meshes[i]->GetIndexBuffer(), program);
+        }
+    }
+
+    void Renderer::DrawNormals(const Model& model, IShaderProgram* program)
+    {
+        for (int i = 0; i < model.m_Meshes.size(); i++)
+        {
+            model.m_Meshes[i]->Bind();
+
             DrawIndecies(model.m_Meshes[i]->GetVertexArray(), model.m_Meshes[i]->GetIndexBuffer(), program);
         }
     }

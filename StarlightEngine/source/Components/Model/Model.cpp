@@ -3,6 +3,7 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include "Core/Renderer/ITexture.h"
+#include "Core/AssetManager.h"
 #include "Core/Log.h"
 
 namespace Starlight
@@ -78,7 +79,8 @@ namespace Starlight
 	{
 		Assimp::Importer importer;
 
-		m_Scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
+		m_Scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenSmoothNormals | 
+											  aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 		uint32_t position = filename.find_last_of("/\\");
 		m_NativePath = filename.substr(0, position);
@@ -115,8 +117,8 @@ namespace Starlight
 			ReadSingleMesh(m_Scene->mMeshes[node->mMeshes[i]],
 				m_Meshes[m_Meshes.size() - 1]);
 
-			if (m_Material == nullptr)
-				ReadSingleMaterial(m_Scene->mMeshes[node->mMeshes[0]]);
+			ReadSingleMaterial(m_Scene->mMeshes[node->mMeshes[0]], 
+				m_Meshes[m_Meshes.size() - 1]);
 		}
 
 		for (int i = 0; i < node->mNumChildren; i++)
@@ -150,10 +152,10 @@ namespace Starlight
 				vertecies[i].Normal = temp;
 			}
 
-			if (mesh->HasTextureCoords(i))
+			if (mesh->mTextureCoords[0])
 			{
-				temp.x = mesh->mTextureCoords[i]->x;
-				temp.y = mesh->mTextureCoords[i]->y;
+				temp.x = mesh->mTextureCoords[0][i].x;
+				temp.y = mesh->mTextureCoords[0][i].y;
 
 				vertecies[i].TextureCoord = { temp.x, temp.y };
 			}
@@ -172,21 +174,54 @@ namespace Starlight
 		outMesh->WriteData();
 	}
 
-	void Model::ReadSingleMaterial(aiMesh* mesh)
+	void Model::ReadSingleMaterial(aiMesh* mesh, Mesh* outMesh)
 	{
 		aiMaterial* material = m_Scene->mMaterials[mesh->mMaterialIndex];
 
 		aiString path;
 		std::string fullPath;
+		std::string name;
 
-		m_Material = new Material;
+		int diffuseCount = material->GetTextureCount(aiTextureType_DIFFUSE);
+		int specularCount = material->GetTextureCount(aiTextureType_SPECULAR);
 
-		material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
-		fullPath = m_NativePath + "/" + path.C_Str();
-		m_Material->Diffuse = CreateTexture2D(RGB, fullPath);
+		outMesh->m_Material = new Material;
 
-		material->GetTexture(aiTextureType_SPECULAR, 0, &path);
-		fullPath = m_NativePath + "/" + path.C_Str();
-		m_Material->Specular = CreateTexture2D(RGB, fullPath);
+		for (int i = 0; i < diffuseCount; i++)
+		{
+			material->GetTexture(aiTextureType_DIFFUSE, i, &path);
+			fullPath = m_NativePath + "/" + path.C_Str();
+
+			name = AssetManager::FormatName(fullPath);
+
+			if (AssetManager::HasTexture(name))
+			{
+				outMesh->m_Material->Diffuse.push_back(AssetManager::GetTexture(name));
+			}
+			else
+			{
+				AssetManager::LoadTexture(RGB, fullPath);
+				outMesh->m_Material->Diffuse.push_back(AssetManager::GetTexture(name));
+			}
+		}
+
+		for (int i = 0; i < specularCount; i++)
+		{
+			material->GetTexture(aiTextureType_SPECULAR, 0, &path);
+
+			fullPath = m_NativePath + "/" + path.C_Str();
+
+			name = AssetManager::FormatName(fullPath);
+
+			if (AssetManager::HasTexture(name))
+			{
+				outMesh->m_Material->Specular.push_back(AssetManager::GetTexture(name));
+			}
+			else
+			{
+				AssetManager::LoadTexture(RGB, fullPath);
+				outMesh->m_Material->Specular.push_back(AssetManager::GetTexture(name));
+			}
+		}
 	}
 }

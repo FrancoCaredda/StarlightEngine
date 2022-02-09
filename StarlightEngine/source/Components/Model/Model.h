@@ -45,11 +45,13 @@ namespace Starlight
 		void Unbind() const noexcept;
 
 		friend class Model;
+		friend class Renderer;
 		~Mesh();
 	private:
 		std::vector<Vertex> m_Vertecies;
 		std::vector<uint32_t> m_Indecies;
-		uint32_t m_MaterialID;
+
+		Material* m_Material;
 
 		IVertexBuffer* m_VertexBuffer = nullptr;
 		IIndexBuffer* m_IndexBuffer = nullptr;
@@ -71,10 +73,9 @@ namespace Starlight
 		void ProcessScene();
 		void ProcessNode(const aiNode* node);
 		void ReadSingleMesh(aiMesh* mesh, Mesh* outMesh);
-		void ReadSingleMaterial(aiMesh* mesh);
+		void ReadSingleMaterial(aiMesh* mesh, Mesh* outMesh);
 	private:
 		std::vector<Mesh*> m_Meshes;
-		Material* m_Material;
 		std::string m_NativePath;
 
 		const aiScene* m_Scene;

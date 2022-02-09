@@ -12,8 +12,8 @@ namespace Starlight
 	typedef struct Material
 	{
 		glm::vec3 Color = { 1.0f, 1.0f, 1.0f };
-		ITexture2D* Diffuse;
-		ITexture2D* Specular;
+		std::vector<ITexture2D*> Diffuse;
+		std::vector<ITexture2D*> Specular;
 		
 		float Shininess = 2.0;
 	} Material;

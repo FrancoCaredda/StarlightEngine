@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Core\AssetManager.h" />
     <ClInclude Include="source\Components\Model\Model.h" />
     <ClInclude Include="source\Core\ShaderLanguage\Preprocessor.h" />
     <ClInclude Include="source\Components\Graphics\Light.h" />
@@ -438,6 +439,7 @@
     <ClInclude Include="vendor\stb\stb_voxel_render.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Core\AssetManager.cpp" />
     <ClCompile Include="source\Components\Model\Model.cpp" />
     <ClCompile Include="source\Core\ShaderLanguage\Preprocessor.cpp" />
     <ClCompile Include="source\Core\Platform\OpenGL\FrameBuffer.cpp" />

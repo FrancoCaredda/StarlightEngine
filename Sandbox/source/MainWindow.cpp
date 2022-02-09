@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include "Core/AssetManager.h"
+
 using namespace Starlight;
 
 void MainWindow::Start()
@@ -26,6 +28,8 @@ void MainWindow::Start()
 
 	m_Object.Load("Assets/backpack/backpack.obj");
 
+	AssetManager::HasTexture("diffuse");
+
 	m_Program = ShaderLibrary::GetShaderProgram("object");
 	m_Program->Bind();
 
@@ -42,6 +46,12 @@ void MainWindow::Update(float deltaTime)
 	m_Program->Bind();
 	
 	Renderer::DrawModel(m_Object, m_Program);
+
+	IShaderProgram* program = ShaderLibrary::GetShaderProgram("normals");
+	program->Bind();
+	program->SetUniformf("u_Magnitude", 0.2);
+	program->SetUniformMat4f("u_Model", m_Model);
+	Renderer::DrawNormals(m_Object, program);
 }
 
 void MainWindow::ProcessInput(float deltaTime) noexcept

@@ -31,6 +31,7 @@ namespace Starlight
 		static void DrawPoints(uint32_t count) noexcept;
 
 		static void DrawModel(const Model& model, IShaderProgram* program);
+		static void DrawNormals(const Model& model, IShaderProgram* program);
 		static void DrawFrame() noexcept;
 
 		static ITexture2D* GetFrameColor() noexcept;
