@@ -16,8 +16,7 @@ public:
 
 	virtual ~MainWindow();
 private:
-	//Starlight::Mesh* m_Mesh;
-	Starlight::Model m_Object;
+	Starlight::StaticMesh* m_Mesh;
 	Starlight::Material m_Material;
 	Starlight::IVertexBuffer* m_VerteciesData;
 	Starlight::IVertexArray* m_VerteciesLayout;

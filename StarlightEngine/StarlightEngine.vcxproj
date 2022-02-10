@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Core\AssetManager.h" />
-    <ClInclude Include="source\Components\Model\Model.h" />
+    <ClInclude Include="source\Components\Mesh\Mesh.h" />
     <ClInclude Include="source\Core\ShaderLanguage\Preprocessor.h" />
     <ClInclude Include="source\Components\Graphics\Light.h" />
     <ClInclude Include="source\Components\Graphics\Material.h" />
@@ -440,7 +440,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Core\AssetManager.cpp" />
-    <ClCompile Include="source\Components\Model\Model.cpp" />
+    <ClCompile Include="source\Components\Mesh\Mesh.cpp" />
     <ClCompile Include="source\Core\ShaderLanguage\Preprocessor.cpp" />
     <ClCompile Include="source\Core\Platform\OpenGL\FrameBuffer.cpp" />
     <ClCompile Include="source\Core\Renderer\IFrameBuffer.cpp" />

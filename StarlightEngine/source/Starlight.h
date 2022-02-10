@@ -27,6 +27,6 @@
 /* --------------Components-------------- */
 #include "Components/Graphics/Light.h"
 #include "Components/Graphics/Material.h"
-#include "Components/Model/Model.h"
+#include "Components/Mesh/Mesh.h"
 /* -------------------------------------- */
 

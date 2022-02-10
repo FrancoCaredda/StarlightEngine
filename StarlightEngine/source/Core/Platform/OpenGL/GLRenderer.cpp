@@ -36,6 +36,11 @@ namespace Starlight
 			glClearColor(color.r, color.g, color.b, color.a);
 		}
 
+		void GLRenderer::DrawArrays(int first, int count)
+		{
+			glDrawArrays(GL_TRIANGLES, first, count);
+		}
+
 		void GLRenderer::DrawFrame() noexcept
 		{
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

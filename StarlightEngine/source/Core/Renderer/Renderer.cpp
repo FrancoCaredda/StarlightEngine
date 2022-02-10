@@ -70,8 +70,6 @@ namespace Starlight
 
             s_Instance.m_FrameShader = ShaderLibrary::GetShaderProgram("frame");
 
-            //s_Instance.m_FrameBuffer->Unbind();
-
             return s_Instance.m_Inited;
         default:
             SL_ERROR("Starlight supports OpenGL now");
@@ -131,6 +129,19 @@ namespace Starlight
         }
     }
 
+    void Renderer::DrawArrays(int first, int count) noexcept
+    {
+        switch (s_Instance.m_RendererApi)
+        {
+        case OPENGL_API:
+            OpenGL::GLRenderer::DrawArrays(first, count);
+            break;
+        default:
+            SL_ERROR("Renderer supports OpenGL now");
+            break;
+        }
+    }
+
     void Renderer::DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program)
     {
         program->SetUniformMat4f("u_Projection", s_Instance.m_Projection);
@@ -160,34 +171,37 @@ namespace Starlight
         }
     }
 
-    void Renderer::DrawModel(const Model& model, IShaderProgram* program)
+    void Renderer::DrawStaticMesh(StaticMesh* mesh, IShaderProgram* program)
     {
-        for (int i = 0; i < model.m_Meshes.size(); i++)
-        {
-            model.m_Meshes[i]->Bind();
+        mesh->Bind();
 
-            model.m_Meshes[i]->m_Material->Diffuse[0]->SetActiveSlot(2);
-            model.m_Meshes[i]->m_Material->Diffuse[0]->Bind();
+        mesh->m_Material.Diffuse[0]->SetActiveSlot(2);
+        mesh->m_Material.Diffuse[0]->Bind();
 
-            program->SetUniformi("u_Material.Diffuse", 2);
+        program->SetUniformi("u_Material.Diffuse", 2);
 
-            model.m_Meshes[i]->m_Material->Specular[0]->SetActiveSlot(3);
-            model.m_Meshes[i]->m_Material->Specular[0]->Bind();
+        mesh->m_Material.Specular[0]->SetActiveSlot(3);
+        mesh->m_Material.Specular[0]->Bind();
 
-            program->SetUniformi("u_Material.Specular", 3);
+        program->SetUniformi("u_Material.Specular", 3);
 
-            DrawIndecies(model.m_Meshes[i]->GetVertexArray(), model.m_Meshes[i]->GetIndexBuffer(), program);
-        }
+        mesh->m_VertexBuffer->Bind();
+
+        program->SetUniformMat4f("u_Projection", s_Instance.m_Projection);
+        program->SetUniformMat4f("u_View", s_Instance.m_Camera->GetView());
+
+        DrawArrays(0, mesh->GetVerteciesCount());
     }
 
-    void Renderer::DrawNormals(const Model& model, IShaderProgram* program)
+    void Renderer::DrawNormals(StaticMesh* mesh, IShaderProgram* program)
     {
-        for (int i = 0; i < model.m_Meshes.size(); i++)
-        {
-            model.m_Meshes[i]->Bind();
+        mesh->Bind();
+        program->Bind();
 
-            DrawIndecies(model.m_Meshes[i]->GetVertexArray(), model.m_Meshes[i]->GetIndexBuffer(), program);
-        }
+        program->SetUniformMat4f("u_Projection", s_Instance.m_Projection);
+        program->SetUniformMat4f("u_View", s_Instance.m_Camera->GetView());
+
+        DrawArrays(0, mesh->GetVerteciesCount());
     }
 
     void Renderer::DrawFrame() noexcept

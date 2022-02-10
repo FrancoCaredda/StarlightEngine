@@ -11,7 +11,7 @@
 
 #include "Core/enums.h"
 
-#include "Components/Model/Model.h"
+#include "Components/Mesh/Mesh.h"
 
 namespace Starlight
 {
@@ -27,11 +27,12 @@ namespace Starlight
 
 		static void Clear(int buffers) noexcept;
 		static void ClearColor(const glm::vec4& color) noexcept;
+		static void DrawArrays(int first, int count) noexcept;
 		static void DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program);
 		static void DrawPoints(uint32_t count) noexcept;
 
-		static void DrawModel(const Model& model, IShaderProgram* program);
-		static void DrawNormals(const Model& model, IShaderProgram* program);
+		static void DrawStaticMesh(StaticMesh* mesh, IShaderProgram* program);
+		static void DrawNormals(StaticMesh* mesh, IShaderProgram* program);
 		static void DrawFrame() noexcept;
 
 		static ITexture2D* GetFrameColor() noexcept;

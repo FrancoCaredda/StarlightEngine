@@ -26,9 +26,9 @@ void MainWindow::Start()
 		SL_ERROR("Something went wrong with creating normals shader");
 	}
 
-	m_Object.Load("Assets/backpack/backpack.obj");
 
-	AssetManager::HasTexture("diffuse");
+	AssetManager::LoadStaticMesh("Assets/backpack/backpack.obj");
+	m_Mesh = AssetManager::GetStaticMesh("backpack");
 
 	m_Program = ShaderLibrary::GetShaderProgram("object");
 	m_Program->Bind();
@@ -45,13 +45,13 @@ void MainWindow::Update(float deltaTime)
 
 	m_Program->Bind();
 	
-	Renderer::DrawModel(m_Object, m_Program);
+	Renderer::DrawStaticMesh(m_Mesh, m_Program);
 
 	IShaderProgram* program = ShaderLibrary::GetShaderProgram("normals");
 	program->Bind();
 	program->SetUniformf("u_Magnitude", 0.2);
 	program->SetUniformMat4f("u_Model", m_Model);
-	Renderer::DrawNormals(m_Object, program);
+	Renderer::DrawNormals(m_Mesh, program);
 }
 
 void MainWindow::ProcessInput(float deltaTime) noexcept

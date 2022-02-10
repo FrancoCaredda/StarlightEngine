@@ -1020,7 +1020,7 @@
     <ClInclude Include="source\Core\ShaderLanguage\Preprocessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Components\Model\Model.h">
+    <ClInclude Include="source\Components\Mesh\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vendor\assimp\include\assimp\Compiler\poppack1.h">
@@ -1334,7 +1334,7 @@
     <ClCompile Include="source\Core\ShaderLanguage\Preprocessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Components\Model\Model.cpp">
+    <ClCompile Include="source\Components\Mesh\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Core\AssetManager.cpp">

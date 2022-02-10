@@ -13,5 +13,5 @@ in Vertex
 void main()
 {
     vec4 color = texture(u_Texture, vs_vertex.TextureCoord);
-    FragColor = color;
+    FragColor = vec4(color.rgb, 1.0);
 }
