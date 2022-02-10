@@ -5,7 +5,7 @@ Starlight is on early development stage now.
 We are working on assets handling now. <br/>
 Task list
 - [x] Loading models
-- [ ] Loading materials
-- [ ] Asset manager
+- [x] Loading materials
+- [x] Asset manager
 - [ ] Batching model's meshes
 - [ ] Optimization
