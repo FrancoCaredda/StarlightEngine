@@ -9,4 +9,4 @@ Task list
 - [x] Implement asset manager
 - [x] Batching static models in single meshes
 - [ ] Dynamic meshes
-- [x] Optimization
+- [ ] Optimization
