@@ -27,14 +27,21 @@ namespace Starlight
 
 		static void Clear(int buffers) noexcept;
 		static void ClearColor(const glm::vec4& color) noexcept;
+		// Draws object by selected vertex buffer data
 		static void DrawArrays(int first, int count) noexcept;
+		// Draws object by selected index buffer data
 		static void DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program);
 		static void DrawPoints(uint32_t count) noexcept;
 
+		// Draws static mesh. Uses Renderer::DrawArrays method inside
 		static void DrawStaticMesh(StaticMesh* mesh, IShaderProgram* program);
+		// Draws static mesh normals. Uses Renderer::DrawArrays method inside
 		static void DrawNormals(StaticMesh* mesh, IShaderProgram* program);
+		// Draws std frame
+		// TODO(Franco): Make posibility to draw users frame buffers.
 		static void DrawFrame() noexcept;
 
+		// Returns texture of std frame buffer
 		static ITexture2D* GetFrameColor() noexcept;
 
 		static void SetMainCamera(Camera* camera) noexcept;

@@ -23,13 +23,12 @@ namespace Starlight
 		static bool HasTexture(const std::string& name);
 		static ITexture2D* GetTexture(const std::string& name);
 
-
 		static bool LoadStaticMesh(const std::string& filepath);
 		static bool HasStaticMesh(const std::string& name);
 		static StaticMesh* GetStaticMesh(const std::string& name);
 
-		static bool LoadDynamicMesh() { return false; }
-		static bool HasDynamicMesh() { return false; }
+		static bool LoadDynamicMesh(const std::string& filepath) { return false; }
+		static bool HasDynamicMesh(const std::string& name) { return false; }
 
 		static std::string FormatName(const std::string& filepath) noexcept;
 

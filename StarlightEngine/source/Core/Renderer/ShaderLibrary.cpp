@@ -6,7 +6,7 @@ namespace Starlight
 {
 	ShaderLibrary ShaderLibrary::s_Instance;
 
-	bool ShaderLibrary::CreateShaderProgram(const std::string shaderName, const std::string& vertexShader, const std::string& fragmentShader)
+	bool ShaderLibrary::CreateShaderProgram(const std::string& shaderName, const std::string& vertexShader, const std::string& fragmentShader)
 	{
 		try
 		{
@@ -26,7 +26,7 @@ namespace Starlight
 		return true;
 	}
 
-	bool ShaderLibrary::CreateShaderProgram(const std::string shaderName, const std::string& vertexShader, const std::string& geometryShader, const std::string& fragmentShader)
+	bool ShaderLibrary::CreateShaderProgram(const std::string& shaderName, const std::string& vertexShader, const std::string& geometryShader, const std::string& fragmentShader)
 	{
 		try
 		{

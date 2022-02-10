@@ -81,7 +81,7 @@ namespace Starlight
 
 	void AssetManager::ProcessScene(const std::string& key, bool staticMesh)
 	{
-		ProcessNode(m_Scene->mRootNode, key, true);
+		ProcessNode(m_Scene->mRootNode, key, staticMesh);
 	}
 
 	void AssetManager::ProcessNode(const aiNode* node, const std::string& key, bool staticMesh)

@@ -20,6 +20,7 @@ namespace Starlight
 		inline glm::vec3 GetPosition() const noexcept { return m_Position; }
 		inline glm::vec3 GetDirection() const noexcept { return m_Direction; }
 		inline glm::vec3 GetUp() const noexcept { return m_Up; }
+		// Gets view matrix of camera
 		inline glm::mat4 GetView() const noexcept { return m_View; }
 
 		~Camera() = default;

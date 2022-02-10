@@ -28,6 +28,8 @@ namespace Starlight
 
             // It's not OPENGL specific code
 
+
+            // Frame buffer setup
             s_Instance.m_FrameBuffer =  CreateFrameBuffer();
             s_Instance.m_RenderBuffer = CreateRenderBuffer(DEPTH24_STENCIL8, width, height);
             s_Instance.m_ColorBuffer =  CreateTexture2D(RGBA, width, height);
@@ -43,7 +45,8 @@ namespace Starlight
                 SL_ERROR("STD frame buffer isn\'t initialized!");
                 return (s_Instance.m_Inited = false);
             }
-               
+            
+            // Frame data setup
             s_Instance.m_FrameVBO = CreateVertexBuffer();
             s_Instance.m_FrameVBO->Allocate(quad.size() * sizeof(float));
             s_Instance.m_FrameVBO->Write(quad.data(), quad.size() * sizeof(float), 0);
@@ -62,6 +65,7 @@ namespace Starlight
             s_Instance.m_FrameVAO->AttachVertexBuffer(s_Instance.m_FrameVBO);
             s_Instance.m_FrameVAO->SetIndexBuffer(s_Instance.m_FrameIBO);
             
+            // Creates std shader program
             if (!ShaderLibrary::CreateShaderProgram("frame", "Shaders/frame.vert.glsl", "Shaders/frame.frag.glsl"))
             {
                 SL_ERROR("STD frame shader isn\'t created!");
@@ -175,6 +179,7 @@ namespace Starlight
     {
         mesh->Bind();
 
+        // Setting a material to mesh
         mesh->m_Material.Diffuse[0]->SetActiveSlot(2);
         mesh->m_Material.Diffuse[0]->Bind();
 
@@ -185,6 +190,7 @@ namespace Starlight
 
         program->SetUniformi("u_Material.Specular", 3);
 
+        // Setting mesh's world systems
         mesh->m_VertexBuffer->Bind();
 
         program->SetUniformMat4f("u_Projection", s_Instance.m_Projection);
@@ -206,20 +212,24 @@ namespace Starlight
 
     void Renderer::DrawFrame() noexcept
     {
+        // Unbind std frame buffer to draw it on the screen
         s_Instance.m_FrameBuffer->Unbind();
         Disable(DEPTH_TEST);
         Disable(STENCIL_TEST);
         Clear(COLOR_BUFFER_BIT);
        
+        // Binding data
         s_Instance.m_FrameVAO->Bind();
         s_Instance.m_FrameVBO->Bind();
         s_Instance.m_FrameIBO->Bind();
+        // Setting up a texture
         s_Instance.m_FrameShader->Bind();
         s_Instance.m_ColorBuffer->SetActiveSlot(0);
         s_Instance.m_ColorBuffer->Bind();
 
         s_Instance.m_FrameShader->SetUniformi("u_Texture", 0);
 
+        // Drawing a frame
         switch (s_Instance.m_RendererApi)
         {
         case OPENGL_API:
@@ -261,6 +271,8 @@ namespace Starlight
             SL_ERROR("Starlight supports OpenGL now");
             break;
         }
+
+        // Deliting data
 
         delete s_Instance.m_FrameBuffer;
         delete s_Instance.m_RenderBuffer;
