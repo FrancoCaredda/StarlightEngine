@@ -11,9 +11,9 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	Starlight::AWindow* window = new MainWindow("Sandbox", 1200, 900);
+	Starlight::Ref<Starlight::AWindow> window = new MainWindow("Sandbox", 1200, 900);
 
-	Starlight::Application::SetCurrentContext(window);
+	Starlight::Application::SetCurrentContext(window.Native());
 
 	if (!Starlight::Renderer::Init(OPENGL_API, 1200, 900))
 	{
@@ -23,9 +23,6 @@ int main(int argc, char** argv)
 
 	Starlight::Application::Start();
 	Starlight::Application::Update();
-
-	delete window;
-	window = nullptr;
 
 	Starlight::Application::Shutdown();
 

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Core\Memory\Allocator.h" />
     <ClInclude Include="source\Core\AssetManager.h" />
     <ClInclude Include="source\Components\Mesh\Mesh.h" />
     <ClInclude Include="source\Core\ShaderLanguage\Preprocessor.h" />

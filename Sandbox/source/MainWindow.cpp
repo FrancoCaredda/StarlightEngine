@@ -87,5 +87,5 @@ void MainWindow::ProcessInput(float deltaTime) noexcept
 
 MainWindow::~MainWindow()
 {
-	//delete m_Mesh;
+	delete m_Mesh;
 }

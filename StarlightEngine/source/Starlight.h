@@ -24,6 +24,10 @@
 #include "Core/Renderer/Camera.h"
 /* -------------------------------------- */
 
+/* ----------------Memory---------------- */
+#include "Core/Memory/Allocator.h"
+/* -------------------------------------- */
+
 /* --------------Components-------------- */
 #include "Components/Graphics/Light.h"
 #include "Components/Graphics/Material.h"

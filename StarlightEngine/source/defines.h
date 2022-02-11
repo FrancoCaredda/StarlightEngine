@@ -10,6 +10,8 @@
 #include <vector>
 #include <exception>
 #include <cstdint>
+#include <array>
+
 
 #define SL_OPENGL
 

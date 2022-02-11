@@ -13,8 +13,8 @@ namespace Starlight
 	/// First component of std::pair is an index to attribute. 
 	/// Second component of std::pair is an vector of uint32_t components.
 	/// X component of vector defines elements count of this attribute.
-	/// Y component of vector defines stride between two vertecies. (must be in bytes)
-	/// Z component of vector defines offset to attribute. (must be in bytes)
+	/// Y component of vector defines stride between two vertecies. (must be in bytes).
+	/// Z component of vector defines offset to attribute (must be in bytes).
 	/// </summary>
 	typedef std::vector<std::pair<uint32_t, glm::uvec3>> VertexLayout;
 
