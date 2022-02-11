@@ -27,8 +27,9 @@ namespace Starlight
 		static bool HasStaticMesh(const std::string& name);
 		static StaticMesh* GetStaticMesh(const std::string& name);
 
-		static bool LoadDynamicMesh(const std::string& filepath) { return false; }
-		static bool HasDynamicMesh(const std::string& name) { return false; }
+		static bool LoadDynamicMesh(const std::string& filepath);
+		static bool HasDynamicMesh(const std::string& name);
+		static DynamicMesh* GetDynamicMesh(const std::string& name);
 
 		static std::string FormatName(const std::string& filepath) noexcept;
 
@@ -38,6 +39,7 @@ namespace Starlight
 		void ProcessNode(const aiNode* node, const std::string& key, bool staticMesh);
 		void ReadStaticMesh(aiMesh* mesh, StaticMesh* outMesh);
 		void ReadStaticMaterial(aiMesh* mesh, StaticMesh* outMesh);
+		void ReadDynamicMesh(aiMesh* mesh, StaticMesh* outMember);
 	private:
 		AssetManager() = default;
 		static AssetManager s_Instance;
@@ -47,6 +49,7 @@ namespace Starlight
 
 		std::map<std::string, ITexture2D*> m_TextureTable;
 		std::map<std::string, StaticMesh*> m_StaticMeshTable;
+		std::map<std::string, DynamicMesh*> m_DynamicMeshTable;
 	};
 }
 

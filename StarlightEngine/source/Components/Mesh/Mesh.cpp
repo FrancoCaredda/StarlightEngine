@@ -6,6 +6,8 @@
 #include "Core/AssetManager.h"
 #include "Core/Log.h"
 
+#include <algorithm>
+
 namespace Starlight
 {
 	StaticMesh::StaticMesh(bool includeIndecies)
@@ -15,6 +17,8 @@ namespace Starlight
 
 		if (includeIndecies)
 			m_IndexBuffer = CreateIndexBuffer();
+
+		m_IncludeIndecies = includeIndecies;
 	}
 
 	void StaticMesh::InsertVertecies(const std::vector<Vertex>& vertecies) noexcept
@@ -101,6 +105,13 @@ namespace Starlight
 	void DynamicMesh::AttachStaticMesh(StaticMesh* mesh) noexcept
 	{
 		m_Meshes.push_back(mesh);
+	}
+
+	void DynamicMesh::Sort() noexcept
+	{
+		std::sort(m_Meshes.begin(), m_Meshes.end(), [](StaticMesh* a, StaticMesh* b) {
+			return a->GetVerteciesCount() < b->GetVerteciesCount();
+		});
 	}
 	
 	DynamicMesh::~DynamicMesh()

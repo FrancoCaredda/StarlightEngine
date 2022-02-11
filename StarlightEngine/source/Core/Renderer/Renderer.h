@@ -41,6 +41,8 @@ namespace Starlight
 		// TODO(Franco): Make posibility to draw users frame buffers.
 		static void DrawFrame() noexcept;
 
+		static void DrawDynamicMesh(DynamicMesh* mesh, IShaderProgram* program);
+
 		// Returns texture of std frame buffer
 		static ITexture2D* GetFrameColor() noexcept;
 

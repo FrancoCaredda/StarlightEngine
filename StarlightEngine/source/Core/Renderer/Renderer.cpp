@@ -243,6 +243,30 @@ namespace Starlight
         s_Instance.m_FrameBuffer->Bind();
     }
 
+    void Renderer::DrawDynamicMesh(DynamicMesh* mesh, IShaderProgram* program)
+    {
+        program->Bind();
+
+        StaticMesh* member;
+
+        for (int i = 0; i < mesh->GetCount(); i++)
+        {
+            member = (*mesh)[i];
+
+            /*member->m_Material.Diffuse[0]->SetActiveSlot(2);
+            member->m_Material.Diffuse[0]->Bind();
+
+            program->SetUniformi("u_Material.Diffuse", 2);
+
+            member->m_Material.Specular[0]->SetActiveSlot(3);
+            member->m_Material.Specular[0]->Bind();
+
+            program->SetUniformi("u_Material.Specular", 3);*/
+
+            DrawStaticMesh(member, program);
+        }
+    }
+
     ITexture2D* Renderer::GetFrameColor() noexcept
     {
         return s_Instance.m_ColorBuffer;

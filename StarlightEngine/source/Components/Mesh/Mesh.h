@@ -65,6 +65,7 @@ namespace Starlight
 		void WriteData() noexcept;
 
 		void AttachStaticMesh(StaticMesh* mesh) noexcept;
+		void Sort() noexcept;
 
 		inline uint32_t GetCount() const noexcept { return m_Meshes.size(); }
 		inline StaticMesh* operator[](uint32_t index) { return (index >= m_Meshes.size()) ? nullptr : m_Meshes[index]; }
