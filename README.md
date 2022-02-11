@@ -8,5 +8,5 @@ Task list
 - [x] Loading materials
 - [x] Implement asset manager
 - [x] Batching static models in single meshes
-- [ ] Dynamic meshes
-- [ ] Optimization
+- [x] Dynamic meshes
+- [x] Optimization
