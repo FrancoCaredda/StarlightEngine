@@ -37,5 +37,4 @@ private:
 	bool m_Draw = false;
 };
 
-
 #endif // !MAIN_WINDOW_H

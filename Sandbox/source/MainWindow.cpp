@@ -45,12 +45,6 @@ void MainWindow::Update(float deltaTime)
 	m_Program->Bind();
 	
 	Renderer::DrawStaticMesh(m_Mesh, m_Program);
-
-	//IShaderProgram* program = ShaderLibrary::GetShaderProgram("normals");
-	//program->Bind();
-	//program->SetUniformf("u_Magnitude", 0.2);
-	//program->SetUniformMat4f("u_Model", m_Model);
-	//Renderer::DrawNormals(m_Mesh, program);
 }
 
 void MainWindow::ProcessInput(float deltaTime) noexcept

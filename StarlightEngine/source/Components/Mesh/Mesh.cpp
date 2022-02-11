@@ -38,16 +38,19 @@ namespace Starlight
 
 		size_t offset = 0;
 
+		m_VertexBuffer->Bind();
+		void* vbo = m_VertexBuffer->Map();
+
 		for (int i = 0; i < m_Vertecies.size(); i++)
 		{
-			m_VertexBuffer->Write(glm::value_ptr(m_Vertecies[i].Position),     sizeof(glm::vec3), offset);
-			m_VertexBuffer->Write(glm::value_ptr(m_Vertecies[i].Normal),       sizeof(glm::vec3), offset + offsetof(Vertex, Normal));
-			m_VertexBuffer->Write(glm::value_ptr(m_Vertecies[i].TextureCoord), sizeof(glm::vec2), offset + offsetof(Vertex, TextureCoord));
+			memcpy((void*)((char*)vbo + offset),								  glm::value_ptr(m_Vertecies[i].Position),     sizeof(glm::vec3));
+			memcpy((void*)((char*)vbo + offset + offsetof(Vertex, Normal)),		  glm::value_ptr(m_Vertecies[i].Normal),       sizeof(glm::vec3));
+			memcpy((void*)((char*)vbo + offset + offsetof(Vertex, TextureCoord)), glm::value_ptr(m_Vertecies[i].TextureCoord), sizeof(glm::vec2));
 
 			offset += sizeof(Vertex);
 		}
 
-		m_VertexBuffer->Bind();
+		m_VertexBuffer->Unmap();
 
 		if (m_IncludeIndecies)
 		{
