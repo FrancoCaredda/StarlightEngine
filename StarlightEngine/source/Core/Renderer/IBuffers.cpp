@@ -29,4 +29,16 @@ namespace Starlight
 			return nullptr;
 		}
 	}
+	
+	STARLIGHT_API IUniformBuffer* CreateUniformBuffer() noexcept
+	{
+		switch (Renderer::GetApi())
+		{
+		case OPENGL_API:
+			return new OpenGL::UniformBuffer(GL_DYNAMIC_DRAW);
+		default:
+			SL_ERROR("Starlight engine supports only OpenGL now");
+			return nullptr;
+		}
+	}
 }

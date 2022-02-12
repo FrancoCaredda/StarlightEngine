@@ -75,6 +75,12 @@ namespace Starlight
 		// -------------------------------------------------------
 
 
+		// -------------------STD Uniform Buffers-----------------
+		IUniformBuffer* m_ViewProjection;
+		// -------------------------------------------------------
+
+
+
 		// ------------------Renderer data------------------------
 		API m_RendererApi;
 		bool m_Inited = false;

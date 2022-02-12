@@ -4,6 +4,8 @@
 #include "Core/Platform/OpenGL/GLRenderer.h"
 #include "Core/Renderer/ShaderLibrary.h"
 
+#include "glm/gtc/type_ptr.hpp"
+
 namespace Starlight
 {
     Renderer Renderer::s_Instance;
@@ -73,6 +75,10 @@ namespace Starlight
             }
 
             s_Instance.m_FrameShader = ShaderLibrary::GetShaderProgram("frame");
+
+            s_Instance.m_ViewProjection = CreateUniformBuffer();
+            s_Instance.m_ViewProjection->Allocate(2 * sizeof(glm::mat4));
+            s_Instance.m_ViewProjection->SetBinding(0);
 
             return s_Instance.m_Inited;
         default:
@@ -148,8 +154,7 @@ namespace Starlight
 
     void Renderer::DrawIndecies(IVertexArray* vertexArray, IIndexBuffer* indexBuffer, IShaderProgram* program)
     {
-        program->SetUniformMat4f("u_Projection", s_Instance.m_Projection);
-        program->SetUniformMat4f("u_View", s_Instance.m_Camera->GetView());
+        s_Instance.m_ViewProjection->Write((void*)glm::value_ptr(s_Instance.m_Camera->GetView()), sizeof(glm::mat4), sizeof(glm::mat4));
 
         switch (s_Instance.m_RendererApi)
         {
@@ -179,6 +184,8 @@ namespace Starlight
     {
         mesh->Bind();
 
+        s_Instance.m_ViewProjection->Write((void*)glm::value_ptr(s_Instance.m_Camera->GetView()), sizeof(glm::mat4), sizeof(glm::mat4));
+
         // Setting a material to mesh
         mesh->m_Material.Diffuse[0]->SetActiveSlot(2);
         mesh->m_Material.Diffuse[0]->Bind();
@@ -193,19 +200,15 @@ namespace Starlight
         // Setting mesh's world systems
         mesh->m_VertexBuffer->Bind();
 
-        program->SetUniformMat4f("u_Projection", s_Instance.m_Projection);
-        program->SetUniformMat4f("u_View", s_Instance.m_Camera->GetView());
-
         DrawArrays(0, mesh->GetVerteciesCount());
     }
 
     void Renderer::DrawNormals(StaticMesh* mesh, IShaderProgram* program)
     {
         mesh->Bind();
+        s_Instance.m_ViewProjection->Write((void*)glm::value_ptr(s_Instance.m_Camera->GetView()), sizeof(glm::mat4), sizeof(glm::mat4));
+     
         program->Bind();
-
-        program->SetUniformMat4f("u_Projection", s_Instance.m_Projection);
-        program->SetUniformMat4f("u_View", s_Instance.m_Camera->GetView());
 
         DrawArrays(0, mesh->GetVerteciesCount());
     }
@@ -280,6 +283,7 @@ namespace Starlight
     void Renderer::SetProjection(const glm::mat4& projection) noexcept
     {
         s_Instance.m_Projection = projection;
+        s_Instance.m_ViewProjection->Write((void*)glm::value_ptr(projection), sizeof(glm::mat4), 0);
     }
     
     void Renderer::Shutdown()

@@ -49,14 +49,38 @@ namespace Starlight
 			virtual void* Map() noexcept override;
 			virtual void Unmap() noexcept override;
 
-			inline uint32_t GetCount() const noexcept { 
-				return m_Count; 
-			}
+			inline uint32_t GetCount() const noexcept { return m_Count; }
 
 			virtual ~IndexBuffer();
 		private:
 			uint32_t m_Id;
 			uint32_t m_Count = 0;
+
+			GLenum m_Usage;
+		};
+
+		class UniformBuffer : public IUniformBuffer
+		{
+		public:
+			UniformBuffer(GLenum usage);
+
+			virtual void Bind() const noexcept override;
+			virtual void Unbind() const noexcept override;
+
+			virtual void SetBinding(uint32_t binding) override;
+
+			virtual void Allocate(size_t size) noexcept override;
+
+			// Writes data to allocated buffer. Size and offset in bytes
+			virtual void Write(void* data, size_t size, size_t offset) noexcept override;
+
+			virtual void* Map() noexcept override;
+			virtual void Unmap() noexcept override;
+
+			virtual ~UniformBuffer();
+		private:
+			uint32_t m_Id;
+			uint32_t m_Binding;
 
 			GLenum m_Usage;
 		};

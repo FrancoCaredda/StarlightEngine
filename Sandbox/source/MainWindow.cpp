@@ -13,8 +13,8 @@ void MainWindow::Start()
 	m_Input = new Input(this);
 	m_Input->DisableCursor();
 
-	Renderer::SetMainCamera(&m_Camera);
 	Renderer::SetProjection(glm::perspective(glm::radians(45.0f), (float)m_Width / (float)m_Height, 0.1f, 1000.0f));
+	Renderer::SetMainCamera(&m_Camera);
 
 	if (ShaderLibrary::CreateShaderProgram("object", "Shaders/object.vert.glsl", "Shaders/object.frag.glsl") != true)
 	{

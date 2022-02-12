@@ -95,5 +95,59 @@ namespace Starlight
 		{
 			glDeleteBuffers(1, &m_Id);
 		}
+
+		UniformBuffer::UniformBuffer(GLenum usage)
+			: m_Usage(usage)
+		{
+			glCreateBuffers(1, &m_Id);
+		}
+		
+		void UniformBuffer::Bind() const noexcept
+		{
+			glBindBuffer(GL_UNIFORM_BUFFER, m_Id);
+		}
+
+		void UniformBuffer::Unbind() const noexcept
+		{
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		}
+		
+		void UniformBuffer::SetBinding(uint32_t binding)
+		{
+			m_Binding = binding;
+
+			glBindBuffer(GL_UNIFORM_BUFFER, m_Id);
+			glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_Id);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		}
+		
+		void UniformBuffer::Allocate(size_t size) noexcept
+		{
+			glBindBuffer(GL_UNIFORM_BUFFER, m_Id);
+			glBufferData(GL_UNIFORM_BUFFER, size, nullptr, m_Usage);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		}
+		
+		void UniformBuffer::Write(void* data, size_t size, size_t offset) noexcept
+		{
+			glBindBuffer(GL_UNIFORM_BUFFER, m_Id);
+			glBufferSubData(GL_UNIFORM_BUFFER, offset, size, data);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		}
+		
+		void* UniformBuffer::Map() noexcept
+		{
+			return glMapBuffer(GL_UNIFORM_BUFFER, GL_READ_WRITE);
+		}
+		
+		void UniformBuffer::Unmap() noexcept
+		{
+			glUnmapBuffer(GL_UNIFORM_BUFFER);
+		}
+		
+		UniformBuffer::~UniformBuffer()
+		{
+			glDeleteBuffers(1, &m_Id);
+		}
 	}
 }
