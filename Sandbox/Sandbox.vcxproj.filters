@@ -15,16 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainWindow.cpp">
+    <ClCompile Include="source\MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainWindow.h">
+    <ClInclude Include="source\MainWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\object.vert.glsl" />
+    <None Include="Shaders\object.frag.glsl" />
+    <None Include="Shaders\frame.vert.glsl" />
+    <None Include="Shaders\frame.frag.glsl" />
+    <None Include="Shaders\normals.geom.glsl" />
+    <None Include="Shaders\normals.frag.glsl" />
+    <None Include="Shaders\normals.vert.glsl" />
+    <None Include="Shaders\includes\material.glsl" />
+    <None Include="Shaders\includes\lightTypes.glsl" />
   </ItemGroup>
 </Project>

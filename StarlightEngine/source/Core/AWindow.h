@@ -25,6 +25,7 @@ namespace Starlight
 		inline int GetHeight() const noexcept { return m_Height; }
 
 		friend class Application;
+		friend class Input;
 
 		virtual ~AWindow();
 	protected:

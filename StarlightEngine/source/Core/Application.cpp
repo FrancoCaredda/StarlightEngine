@@ -1,17 +1,25 @@
 #include "Application.h"
 
+#include "Core/Renderer/Renderer.h"
+
 namespace Starlight
 {
 	Application Application::s_Instance;
 
 	bool Application::Init() noexcept
 	{
-		return s_Instance.m_Inited = glfwInit();
+		s_Instance.m_Inited = glfwInit();
+
+		return s_Instance.m_Inited;
 	}
 
 	void Application::SetCurrentContext(AWindow* context)
 	{
 		s_Instance.m_CurrentContext = context;
+
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwMakeContextCurrent(s_Instance.m_CurrentContext->m_Context);
 	}
 
@@ -32,12 +40,17 @@ namespace Starlight
 
 		while (!glfwWindowShouldClose(context))
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
+			Renderer::Enable(DEPTH_TEST);
+			Renderer::Enable(STENCIL_TEST);
+
+			Renderer::Clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT | STENCIL_BUFFER_BIT);
 
 			deltaTime = static_cast<float>(glfwGetTime()) - previousTime;
 			previousTime += deltaTime;
 	
 			s_Instance.m_CurrentContext->Update(deltaTime);
+
+			Renderer::DrawFrame();
 
 			glfwSwapBuffers(context);
 			glfwPollEvents();
@@ -47,6 +60,8 @@ namespace Starlight
 	void Application::Shutdown() noexcept
 	{
 		if (s_Instance.m_Inited)
+		{
 			glfwTerminate();
+		}
 	}
 }

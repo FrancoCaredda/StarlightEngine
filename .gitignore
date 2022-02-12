@@ -1,5 +1,7 @@
 .vs/
-Debug/
+./DiagnosticSession/
+./Debug/
+./Release/
 ./x64/
 StarlightEngine/Debug
 StarlightEngine/x64

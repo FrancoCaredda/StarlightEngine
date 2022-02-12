@@ -4,7 +4,16 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
+#include <string>
+#include <map>
+#include <unordered_map>
+#include <vector>
 #include <exception>
+#include <cstdint>
+#include <array>
+
+
+#define SL_OPENGL
 
 #ifdef STARLIGHT_EXPORTS
 #define STARLIGHT_API __declspec(dllexport)
@@ -22,5 +31,7 @@
 #define SL_EXCEPTION(CONDITION, MESSAGE, TYPE) if (CONDITION) throw TYPE(MESSAGE)
 
 #define BUFFER_SIZE 256
+
+#define GL_MACRO(NAME) NAME = GL_##NAME
 
 #endif
