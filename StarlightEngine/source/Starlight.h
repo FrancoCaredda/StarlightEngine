@@ -11,6 +11,8 @@
 #include "Core/Input.h"
 #include "Core/enums.h"
 #include "Core/Log.h"
+#include "Core/Memory/Allocator.h"
+#include "Core/Platform/Windows/WinThread.h"
 /* -------------------------------------- */
 
 /* --------------RENDERER----------------*/
@@ -22,10 +24,6 @@
 #include "Core/Renderer/ShaderLibrary.h"
 #include "Core/Renderer/IFrameBuffer.h"
 #include "Core/Renderer/Camera.h"
-/* -------------------------------------- */
-
-/* ----------------Memory---------------- */
-#include "Core/Memory/Allocator.h"
 /* -------------------------------------- */
 
 /* --------------Components-------------- */
