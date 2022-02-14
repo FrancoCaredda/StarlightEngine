@@ -13,7 +13,6 @@ Task list (memory system)
 - [ ] Smart pointers implementation
 - [ ] Memory allocation refactoring
 - [ ] System for loading and unloading data
-- [ ] Custom allocators
 
 Task list (scene system)
 - [ ] Scene tree
